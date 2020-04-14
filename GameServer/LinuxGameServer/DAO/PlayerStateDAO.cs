@@ -19,13 +19,14 @@ namespace GameServer.DAO
                 {
                     int id = reader.GetInt32("id");
                     int health = reader.GetInt32("health");
-                    float skillTime = reader.GetInt32("skilltime");
-                    playerState = new PlayerState(id, userId, health,skillTime);
+                    float skillTime = reader.GetFloat("skilltime");
+                    string roleSelect = reader.GetString("roleselect");
+                    playerState = new PlayerState(id, userId, health,skillTime,roleSelect);
                 }
                 else
                 {
-                    //默认生命值为6，技能时间为2秒
-                    playerState = new PlayerState(-1, userId, 6,2);
+                    //默认生命值为6，技能时间为2秒,角色选择为第1个
+                    playerState = new PlayerState(-1, userId, 6,2,"1");
                 }
                 return playerState;
             }
@@ -49,15 +50,16 @@ namespace GameServer.DAO
             {
                 if (playerState.Id == -1)
                 {
-                    cmd = new MySqlCommand("insert into playerstate set health=@health,skilltime=@skilltime,userid=@userid", conn);
+                    cmd = new MySqlCommand("insert into playerstate set health=@health,skilltime=@skilltime,userid=@userid,roleselect=@roleselect", conn);
                 }
                 else
                 {
-                    cmd = new MySqlCommand("update playerstate set health=@health,skilltime=@skilltime,userid=@userid", conn);
+                    cmd = new MySqlCommand("update playerstate set health=@health,skilltime=@skilltime,userid=@userid,roleselect=@roleselect", conn);
                 }
                 cmd.Parameters.AddWithValue("health", playerState.Health);
                 cmd.Parameters.AddWithValue("skilltime", playerState.SkillTime);
                 cmd.Parameters.AddWithValue("userid", playerState.UserId);
+                cmd.Parameters.AddWithValue("roleselect", playerState.RoleSelect);
                 cmd.ExecuteNonQuery();
                 //第一遍插入之后修改client持有的playerState，之后只用更新即可
                 if (playerState.Id == -1)

@@ -1,5 +1,6 @@
 ﻿using GameServer.Common;
 using GameServer.Controller;
+using GameServer.DAO;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -19,8 +20,17 @@ namespace GameServer.Servers
         private ControllerManager controllerManager;
         //保存所有已登录的用户，用来验证是否重复登录
         private List<int> userIdList = new List<int>();
-
+        public static readonly object objLock = new object();
         public List<Room> RoomList { get => roomList; set => roomList = value; }
+
+        private CoinDAO coinDAO = new CoinDAO();
+        private ItemPriceDAO itemPriceDAO = new ItemPriceDAO();
+        private PlayerStateDAO playerStateDAO = new PlayerStateDAO();
+        private ResultDAO resultDAO = new ResultDAO();
+        private RoleShopStateDAO roleShopStateDAO = new RoleShopStateDAO();
+        private ShopStateDAO shopStateDAO = new ShopStateDAO();
+        private UserDAO userDAO = new UserDAO();
+
 
         public Server() { }
         public Server(string ipStr, int port)
@@ -48,7 +58,7 @@ namespace GameServer.Servers
             Console.WriteLine("|****客户端已连接,创建新的client来响应****|");
             //创建一个单独的客户端进行处理
             Socket clientSocket = serverSocket.EndAccept(ar);
-            Client client = new Client(clientSocket, this);
+            Client client = new Client(clientSocket, this,coinDAO,itemPriceDAO,playerStateDAO,resultDAO,roleShopStateDAO,shopStateDAO,userDAO);
             //启动客户端
             client.Start();
             clientList.Add(client);
@@ -57,7 +67,7 @@ namespace GameServer.Servers
         }
         public void RemoveClient(Client client)
         {
-            lock (clientList)
+            lock (objLock)
             {
                 clientList.Remove(client);
             }
@@ -77,7 +87,7 @@ namespace GameServer.Servers
         /// <param name="client">房主</param>
         public void CreateRoom(Client client)
         {
-            lock (roomList)
+            lock (objLock)
             {               
                 Room room = new Room(this);
                 room.AddClient(client);
@@ -86,7 +96,7 @@ namespace GameServer.Servers
         }
         public void RemoveRoom(Room room)
         {
-            lock (roomList)
+            lock (objLock)
             {
                 if (roomList != null && room != null)
                 {
@@ -107,21 +117,21 @@ namespace GameServer.Servers
         }
         public bool RemoveUser(int id)
         {
-            lock (userIdList)
+            lock (objLock)
             {
                 return userIdList.Remove(id);
             }
         }
         public void AddUser(int id)
         {
-            lock (userIdList)
+            lock (objLock)
             {
                 userIdList.Add(id);
             }
         }
         public bool IsLogin(int id)
         {
-            lock (userIdList)
+            lock (objLock)
             {
                 return userIdList.Contains(id);
             }

@@ -97,9 +97,6 @@ public class UIManager :BaseManager{
             panelDict = new Dictionary<UIPanelType, BasePanel>();
         }
 
-        //BasePanel panel;
-        //panelDict.TryGetValue(panelType, out panel);//TODO
-
         BasePanel panel = panelDict.TryGet(panelType);
 
         if (panel == null)

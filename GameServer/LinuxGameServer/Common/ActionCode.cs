@@ -29,6 +29,9 @@
         BuyItem,
         UpdateCoin,
         UpdateShop,
+        SelectRoleItem,
+        BuyRoleItem,
+        UpdateRoleShop,
         UpdatePlayerState
     }
 }

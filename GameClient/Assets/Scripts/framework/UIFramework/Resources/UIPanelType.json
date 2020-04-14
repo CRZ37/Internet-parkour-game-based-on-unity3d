@@ -22,6 +22,9 @@
 {"panelTypeString":"Register",
 "path":"UIPanel/RegisterPanel"},
 
+{"panelTypeString":"RoleShop",
+"path":"UIPanel/RoleShopPanel"},
+
 {"panelTypeString":"Shop",
 "path":"UIPanel/ShopPanel"}
 

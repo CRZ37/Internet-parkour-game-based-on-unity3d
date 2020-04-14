@@ -20,10 +20,6 @@ public class RoomPanel : BasePanel
     private UserData hostPlayer = null;
     private UserData hostUser;
     private UserData clientUser;
-    private int hostHealth = -1;
-    private float hostSkillTime = -1;
-    private int clientHealth = -1;
-    private float clientSkillTime = -1;
 
     private QuitRoomRequest quitRoomRequest;
     private StartGameRequest startGameRequest;
@@ -61,7 +57,7 @@ public class RoomPanel : BasePanel
             {
                 SetClientPlayerRes(clientUser.Username, clientUser.TotalCount, clientUser.WinCount);
                 //有两个玩家加入后即可先设置好昵称,顺序：先host再client
-                Game.Instance.SetPlayersName(hostUser.Username, clientUser.Username);
+                Game.Instance.SetPlayersName(hostUser, clientUser);
             }
             else
             {
@@ -85,10 +81,6 @@ public class RoomPanel : BasePanel
     {
         this.hostUser = hostUser;
         this.clientUser = clientUser;
-        hostHealth = hostUser.Health;
-        hostSkillTime = hostUser.SkillTime;
-        clientHealth = clientUser.Health;
-        clientSkillTime = clientUser.SkillTime;
     }
     public void SetHostPlayerRes(string username, int totalCount, int winCount)
     {
@@ -132,7 +124,7 @@ public class RoomPanel : BasePanel
             int index2 = int.Parse(strs[2]);
             BGAnim.ShowPopAnimSync();
             UIMng.PushPanelSync(UIPanelType.Game);
-            Game.Instance.EnterPlayingSync(index1, index2,hostHealth,hostSkillTime,clientHealth,clientSkillTime);
+            Game.Instance.EnterPlayingSync(index1, index2);
         }
         else
         {
@@ -144,11 +136,6 @@ public class RoomPanel : BasePanel
                 case ReturnCode.Lack:
                     UIMng.ShowMessageSync("人数不足无法开始游戏");
                     break;
-              //case ReturnCode.Success:
-              //    BGAnim.ShowPopAnimSync();               
-              //    UIMng.PushPanelSync(UIPanelType.Game);
-              //    Game.Instance.EnterPlayingSync(index1,index2);                
-              //    break;
             }
         }
     }

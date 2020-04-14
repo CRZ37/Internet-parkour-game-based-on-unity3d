@@ -36,7 +36,7 @@ public class ShopPanel : BasePanel
 
     private void OnCloseClick()
     {
-        ClosePanelPUNISHING(panelBG, content, 120, 800);
+        ClosePanelPUNISHING(panelBG, content, 120, 1500);
     }
 
     public override void OnEnter()
@@ -76,41 +76,44 @@ public class ShopPanel : BasePanel
     //购买单个商品更新状态
     private void UpdateItemState()
     {
-        //返回值为这个商品当前的被购买次数,格式：序号,值
-        int itemId = int.Parse(itemAndCoinData.Split(',')[0]);
-        int buyTime = int.Parse(itemAndCoinData.Split(',')[1]);
-        float value = float.Parse(itemAndCoinData.Split(',')[2]);
-        SetItemAndCoinState(itemId, buyTime, value);
+        //返回值为是否成功，购买的物品序号，购买后当前的属性
+        UIMng.ShowMessageSync("购买成功");
+        string[] shopDatas = shopData.Split(',');
+        int itemId = int.Parse(shopDatas[0]);
+        float value = float.Parse(shopDatas[1]);
+        int newprice = int.Parse(shopDatas[2]);
+        SetItemAndCoinState(itemId, newprice, value);
+
     }
-    private void SetItemAndCoinState(int itemId, int buyTime, float value = -1f)
+    private void SetItemAndCoinState(int itemId, int newprice, float value = -1f)
     {
         UserData userData = Game.Instance.GetUserData();
         int price = -1;
         switch (itemId)
         {
             case 1:
-                Game.Instance.SetHealthState(buyTime);
-                price = 300 + 300 * buyTime;
+                Game.Instance.SetHealthPrice(newprice);
+                price = newprice;
                 SetHealth(userData, (int)value);
-                healthItem.UpdateItemState(userData.HealthTime, price);
+                healthItem.UpdateItemPrice(price);
                 break;
             case 2:
-                Game.Instance.SetBigHealthState(buyTime);
-                price = 400 + 400 * buyTime;
+                Game.Instance.SetBigHealthPrice(newprice);
+                price = newprice;
                 SetHealth(userData, (int)value);
-                bigHealthItem.UpdateItemState(userData.BigHealthTime, price);
+                bigHealthItem.UpdateItemPrice(price);
                 break;
             case 3:
-                Game.Instance.SetSkillState(buyTime);
-                price = 500 + 500 * buyTime;
+                Game.Instance.SetSkillPrice(newprice);
+                price = newprice;
                 SetSkillTime(userData, value);
-                skillItem.UpdateItemState(userData.SkillTimeTime, price);
+                skillItem.UpdateItemPrice(price);
                 break;
             case 4:
-                Game.Instance.SetBigSkillState(buyTime);
-                price = 700 + 700 * buyTime;
+                Game.Instance.SetBigSkillPrice(newprice);
+                price = newprice;
                 SetSkillTime(userData, value);
-                bigSkillItem.UpdateItemState(userData.BigSkillTimeTime, price);
+                bigSkillItem.UpdateItemPrice(price);
                 break;
         }
     }
@@ -132,18 +135,19 @@ public class ShopPanel : BasePanel
     }
     private void UpdateShopState()
     {
-        ReturnCode returnCode = (ReturnCode)int.Parse(shopData.Split(',')[0]);
+        string[] priceDatas = shopData.Split(',');
+        ReturnCode returnCode = (ReturnCode)int.Parse(priceDatas[0]);
         if (returnCode == ReturnCode.Success)
         {
             UIMng.ShowMessageSync("更新商店状态成功！");
-            int healthTime = int.Parse(shopData.Split(',')[1]);
-            int bigHealthTime = int.Parse(shopData.Split(',')[2]);
-            int skillTimeTime = int.Parse(shopData.Split(',')[3]);
-            int bigSkillTimeTime = int.Parse(shopData.Split(',')[4]);
-            SetItemAndCoinState(1, healthTime);
-            SetItemAndCoinState(2, bigHealthTime);
-            SetItemAndCoinState(3, skillTimeTime);
-            SetItemAndCoinState(4, bigSkillTimeTime);
+            int healthPrice = int.Parse(priceDatas[1]);
+            int bigHealthPrice = int.Parse(priceDatas[2]);
+            int skillTimePrice = int.Parse(priceDatas[3]);
+            int bigSkillTimePrice = int.Parse(priceDatas[4]);
+            SetItemAndCoinState(1, healthPrice);
+            SetItemAndCoinState(2, bigHealthPrice);
+            SetItemAndCoinState(3, skillTimePrice);
+            SetItemAndCoinState(4, bigSkillTimePrice);
         }
         else
         {

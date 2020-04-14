@@ -12,5 +12,6 @@ public enum UIPanelType  {
     RoomList,
     Room,
     Game,
-    Shop
+    Shop,
+    RoleShop
 }

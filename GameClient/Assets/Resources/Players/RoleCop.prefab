@@ -1342,7 +1342,7 @@ GameObject:
   - component: {fileID: 4129979998735285369}
   - component: {fileID: 4958927356845824994}
   m_Layer: 0
-  m_Name: ClientPlayer
+  m_Name: RoleCop
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

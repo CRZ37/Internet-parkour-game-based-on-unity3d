@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Common;
+using System;
 
 public class PlayerManager : BaseManager
 {
@@ -23,25 +24,20 @@ public class PlayerManager : BaseManager
     //host在右边
     private Vector3 hostPos = new Vector3(4.968f, 0.31f, 0.8f);
     private Transform players;
-    private UserData userData;
-    private GameData gameData;
-    private int hostHealth = -1;
-    private float hostSkillTime = -1;
-    private int clientHealth = -1;
-    private float clientSkillTime = -1;
-    public UserData UserData
-    {
-        get => userData;
-        set => userData = value;
-    }
-    public GameData GameData
-    {
-        get => gameData;
-        set => gameData = value;
-    }
+    //private int hostHealth = -1;
+    //private float hostSkillTime = -1;
+    //private int clientHealth = -1;
+    //private float clientSkillTime = -1;
+    //private string hostRoleSelect = null;
+    //private string clientRoleSelect = null;
+    private UserData hostUser;
+    private UserData clientUser;
+    public UserData UserData { get; set; }
+    public ShopData ShopData { get; set; }
+    public GameData GameData { get; set; }
     private Dictionary<Role_ResultRoleType, RoleData> roleDataDict = new Dictionary<Role_ResultRoleType, RoleData>();
+    private Dictionary<string, string> roleSelectDict = new Dictionary<string, string>();
     private Role_ResultRoleType localRoleType;
-    private GameObject localRoleGameObject;
     private GameObject remoteRoleGameObject;
     private GameObject gamePanel;
     private CamFollowPlayer camFollowPlayer;
@@ -50,6 +46,12 @@ public class PlayerManager : BaseManager
     //初次跑道序号
     private int index1 = -1;
     private int index2 = -1;
+    public PlayerManager()
+    {
+        roleSelectDict.Add("1", "Players/RoleMale");
+        roleSelectDict.Add("2", "Players/RoleCop");
+        roleSelectDict.Add("3", "Players/RoleRobot");
+    }
     public override void Update()
     {
         if (isEnterPlaying)
@@ -63,33 +65,37 @@ public class PlayerManager : BaseManager
             canPlayPlayingBG = false;
         }
     }
-    public void SetShopState(int healthTime, int bigHealthTime, int skillTimeTime, int bigSkillTimeTime)
+    public void SetPropertyShopState(int healthPrice, int bigHealthPrice, int skillTimePrice, int bigSkillTimePrice)
     {
-        userData.SetShopState(healthTime, bigHealthTime, skillTimeTime, bigSkillTimeTime);
+        ShopData.SetPropertyShopState(healthPrice, bigHealthPrice, skillTimePrice, bigSkillTimePrice);
+    }
+    public void SetRoleBuyState(int roleMaleBuyState,int roleCopBuyState,int roleRobotBuyState)
+    {
+        UserData.SetRoleBuyState(roleMaleBuyState,roleCopBuyState,roleRobotBuyState);
+    }
+    public void SetRoleSelectState(string roleSelectState)
+    {
+        UserData.SetRoleSeclctState(roleSelectState);
     }
     public void UpdateResult(int totalCount, int winCount)
     {
-        userData.TotalCount = totalCount;
-        userData.WinCount = winCount;
+        UserData.TotalCount = totalCount;
+        UserData.WinCount = winCount;
     }
     public void UpdateCoin(int coinNum)
     {
-        userData.CoinNum = coinNum;
+        UserData.CoinNum = coinNum;
     }
-    public void EnterPlayingSync(int index1, int index2, int hostHealth, float hostSkillTime, int clientHealth, float clientSkillTime)
+    public void EnterPlayingSync(int index1, int index2)
     {
         isEnterPlaying = true;
         this.index1 = index1;
         this.index2 = index2;
-        this.hostHealth = hostHealth;
-        this.hostSkillTime = hostSkillTime;
-        this.clientHealth = clientHealth;
-        this.clientSkillTime = clientSkillTime;
     }
     public void GameStart()
     {
         //开始游戏
-        gameData.IsPlay = true;
+        GameData.IsPlay = true;
         canPlayPlayingBG = true;
     }
     private void EnterPlaying()
@@ -104,12 +110,12 @@ public class PlayerManager : BaseManager
         localRoleType = type;
     }
 
-    public GameObject LocalRoleGameObject { get => localRoleGameObject; set => localRoleGameObject = value; }
+    public GameObject LocalRoleGameObject { get; set; }
 
     public override void OnInit()
     {
         //游戏初始状态：非暂停，未开始
-        gameData = new GameData(false);
+        GameData = new GameData(false);
 
         players = GameObject.Find("Players").transform;
         camFollowPlayer = GameObject.Find("CameraAndOthers/Camera").GetComponent<CamFollowPlayer>();
@@ -128,15 +134,19 @@ public class PlayerManager : BaseManager
 
     private void InitRoleDataDict()
     {
-        //这里设置为可选
-        roleDataDict.Add(Role_ResultRoleType.Host, new RoleData(Role_ResultRoleType.Host, "Players/HostPlayer", hostPos, hostHealth,hostSkillTime));
-        roleDataDict.Add(Role_ResultRoleType.Client, new RoleData(Role_ResultRoleType.Client, "Players/ClientPlayer", clientPos, clientHealth,clientSkillTime));
+        //获取另一个客户端的角色选择
+        string hostRoleSelect = roleSelectDict[hostUser.RoleSelectState];
+        string clientRoleSelect = roleSelectDict[clientUser.RoleSelectState];
+        roleDataDict.Add(Role_ResultRoleType.Host, new RoleData(Role_ResultRoleType.Host, hostRoleSelect, hostPos, hostUser.Health,hostUser.SkillTime));
+        roleDataDict.Add(Role_ResultRoleType.Client, new RoleData(Role_ResultRoleType.Client, clientRoleSelect, clientPos, clientUser.Health,clientUser.SkillTime));
     }
     //设置玩家的姓名
-    public void SetPlayersName(string hostName, string clientName)
+    public void SetPlayersData(UserData hostUser, UserData clientUser)
     {
-        this.hostName.text = hostName;
-        this.clientName.text = clientName;
+        hostName.text = hostUser.Username;
+        clientName.text = clientUser.Username;
+        this.hostUser = hostUser;
+        this.clientUser = clientUser;
     }
     //初始化角色时脚本添加顺序十分重要，为了防止空指针，不再使用生命周期中的Start或Awake，改为手动赋值。
     public void SpawnRoles()
@@ -160,20 +170,20 @@ public class PlayerManager : BaseManager
             if (roleData.Type == localRoleType)
             {
                 //增强可读性
-                localRoleGameObject = go;
+                LocalRoleGameObject = go;
                 //生成角色的时候顺便先生成两条跑道
-                RoadChange roadChange = localRoleGameObject.AddComponent<RoadChange>();
+                RoadChange roadChange = LocalRoleGameObject.AddComponent<RoadChange>();
                 //添加本地玩家控制脚本
-                localPlayerMove = localRoleGameObject.AddComponent<LocalPlayerMove>();
+                localPlayerMove = LocalRoleGameObject.AddComponent<LocalPlayerMove>();
                 localMoveRequest.SetLocalPlayerMove(localPlayerMove);
                 localPlayerMove.SetGameDataAndRoleDataAndRequests(
-                    gameData,
+                    GameData,
                     roleData,
                     localMoveRequest,
                     takeDamageRequest,
                     getCoinRequest,
                     gameOverRequest);
-                CreateRoadRequest createRoadRequest = localRoleGameObject.AddComponent<CreateRoadRequest>();
+                CreateRoadRequest createRoadRequest = LocalRoleGameObject.AddComponent<CreateRoadRequest>();
                 roadChange.SetCreateRoadRequest(createRoadRequest, index1, index2);
                 //设置UI信息
                 switch (roleData.Type)
@@ -191,7 +201,7 @@ public class PlayerManager : BaseManager
                 remoteRoleGameObject = go;
                 //添加远程玩家同步脚本
                 remotePlayerMove = remoteRoleGameObject.AddComponent<RemotePlayerMove>();
-                remotePlayerMove.SetGameDataAndRoleData(gameData, roleData);
+                remotePlayerMove.SetGameDataAndRoleData(GameData, roleData);
                 remoteMoveRequest.SetRemotePlayerMove(remotePlayerMove);
                 takeDamageRequest.SetRemotePlayerMove(remotePlayerMove);
                 getCoinRequest.SetRemotePlayerMove(remotePlayerMove);
@@ -209,17 +219,17 @@ public class PlayerManager : BaseManager
         }
         //其它初始化操作
         localPlayerMove.SetRemotePlayerMove(remoteRoleGameObject.GetComponent<RemotePlayerMove>());
-        remotePlayerMove.SetLocalPlayerMove(localRoleGameObject.GetComponent<LocalPlayerMove>());
+        remotePlayerMove.SetLocalPlayerMove(LocalRoleGameObject.GetComponent<LocalPlayerMove>());
     }
     public void DestroyRoles()
     {
         //相机复位
         camFollowPlayer.transform.localPosition = new Vector3(0, 8.97f, -8.73f);
         camFollowPlayer.StopFollow();
-        GameObject.Destroy(localRoleGameObject);
+        GameObject.Destroy(LocalRoleGameObject);
         GameObject.Destroy(remoteRoleGameObject);
         //这里设置false是给中途就退出用的
-        gameData.IsPlay = false;
+        GameData.IsPlay = false;
         //清空dict
         roleDataDict.Clear();
     }

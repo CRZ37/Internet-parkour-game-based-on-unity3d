@@ -266,7 +266,7 @@ public class LocalPlayerMove : MonoBehaviour
             xDis -= move;
             Debug.Log(xDis + "," + move + "," + transform.position);*/
 
-            //分10帧移动过去
+            //分帧移动过去
             float move = xDis / targetCount;
             transform.position += new Vector3(move, 0, 0);
             count++;
@@ -495,7 +495,7 @@ public class LocalPlayerMove : MonoBehaviour
             //播放游戏结束音效
             Game.Instance.sound.PlayEffect("GameOver");
             gameData.IsPlay = false;
-            //停止游戏后向服务器发送游戏结束的消息，并显示游戏结算面板
+            //停止游戏后向服务器发送游戏结束的消息，并显示游戏结算面板，并在另一端也显示游戏结算面板，也可以减少服务器计算压力
             int localScore = localCoin;
             int remoteScore = remotePlayerMove.GetScore();
             if (localScore > remoteScore)

@@ -88,6 +88,10 @@ public class Game : MonoSingleton<Game>
     {
         return playerMng.UserData;
     }
+    public ShopData GetShopData()
+    {
+        return playerMng.ShopData;
+    }
     public void SetLocalRoleType(Role_ResultRoleType type)
     {
         playerMng.SetLocalRoleType(type);
@@ -96,17 +100,17 @@ public class Game : MonoSingleton<Game>
     {
         return playerMng.LocalRoleGameObject;
     }
-    public void EnterPlayingSync(int index1,int index2, int hostHealth,float hostSkillTime,int clientHealth,float clientSkillTime)
+    public void EnterPlayingSync(int index1,int index2)
     {
-        playerMng.EnterPlayingSync(index1,index2,hostHealth,hostSkillTime,clientHealth,clientSkillTime);
+        playerMng.EnterPlayingSync(index1,index2);
     }
     public void StartPlayingSync()
     {
         playerMng.GameStart();
     }
-    public void SetPlayersName(string hostName, string clientName)
+    public void SetPlayersName(UserData hostUser, UserData clientUser)
     {
-        playerMng.SetPlayersName(hostName, clientName);
+        playerMng.SetPlayersData(hostUser, clientUser);
     }
     public void GameOver()
     {
@@ -120,21 +124,37 @@ public class Game : MonoSingleton<Game>
         playerMng.DestroyRoles();
         objectPool.UnSpawnAll();
     }
-    public void SetHealthState(int time)
+    public void SetHealthPrice(int price)
     {
-        playerMng.SetShopState(time, GetUserData().BigHealthTime, GetUserData().SkillTimeTime, GetUserData().BigSkillTimeTime);
+        playerMng.SetPropertyShopState(price, GetShopData().BigHealthPrice, GetShopData().SkillTimePrice, GetShopData().BigSkillTimePrice);
     }
-    public void SetBigHealthState(int time)
+    public void SetBigHealthPrice(int price)
     {
-        playerMng.SetShopState(GetUserData().HealthTime, time, GetUserData().SkillTimeTime, GetUserData().BigSkillTimeTime);
+        playerMng.SetPropertyShopState(GetShopData().HealthPrice, price, GetShopData().SkillTimePrice, GetShopData().BigSkillTimePrice);
     }
-    public void SetSkillState(int time)
+    public void SetSkillPrice(int price)
     {
-        playerMng.SetShopState(GetUserData().HealthTime, GetUserData().BigHealthTime, time, GetUserData().BigSkillTimeTime);
+        playerMng.SetPropertyShopState(GetShopData().HealthPrice, GetShopData().BigHealthPrice, price, GetShopData().BigSkillTimePrice);
     }
-    public void SetBigSkillState(int time)
+    public void SetBigSkillPrice(int price)
     {
-        playerMng.SetShopState(GetUserData().HealthTime, GetUserData().BigHealthTime, GetUserData().SkillTimeTime, time);
+        playerMng.SetPropertyShopState(GetShopData().HealthPrice, GetShopData().BigHealthPrice, GetShopData().SkillTimePrice, price);
+    }
+    public void SetRoleSelectState(string roleSelectState)
+    {
+        playerMng.SetRoleSelectState(roleSelectState);
+    }
+    public void SetRoleMaleBuyState()
+    {
+        playerMng.SetRoleBuyState(1, GetUserData().RoleBuyState[1], GetUserData().RoleBuyState[2]);
+    }
+    public void SetRoleCopBuyState()
+    {
+        playerMng.SetRoleBuyState(GetUserData().RoleBuyState[0], 1, GetUserData().RoleBuyState[2]);
+    }
+    public void SetRoleRobotBuyState()
+    {
+        playerMng.SetRoleBuyState(GetUserData().RoleBuyState[0], GetUserData().RoleBuyState[1], 1);
     }
     public void UpdateResult(int totalCount, int winCount)
     {

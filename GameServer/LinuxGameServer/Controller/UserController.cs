@@ -34,12 +34,11 @@ namespace GameServer.Controller
                 Result result = resultDAO.GetResultByUserid(client.MysqlConn, user.Id);
                 Coin coin = coinDAO.GetCoinByUserid(client.MysqlConn, user.Id);
                 PlayerState playerState = playerStateDAO.GetPlayerStateByUserid(client.MysqlConn, user.Id);
-                ShopState shopState = shopStateDAO.GetShopStateByUserid(client.MysqlConn, user.Id);
                 //把个人信息保存到对应的client中
-                client.SetUserData(user, result, coin, playerState,shopState);
+                client.SetUserData(user, result, coin, playerState);
                 //把id保存到登陆列表中，防止重复登录
                 server.AddUser(user.Id);
-                //将用户信息组拼起来返回
+                //将用户信息组拼起来返回,这里没必要返回选择的角色，因为商店页面会返回
                 return string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", ((int)ReturnCode.Success).ToString(),
                     user.Id, user.Username, result.TotalCount, result.WinCount, coin.CoinNum, playerState.Health, playerState.SkillTime);
             }

@@ -15,41 +15,49 @@ namespace GameServer.Servers
         private Server server;
         private Message msg = new Message();
         private MySqlConnection mysqlConn;
-        private Room room;
         private User user;
         private Result result;
-        private Coin coin;
-        private PlayerState playerState;
-        private ShopState shopState;
-        private int locationIndex = -1;
-        private ResultDAO resultDAO = new ResultDAO();
-        private CoinDAO coinDAO = new CoinDAO();
-        private PlayerStateDAO playerStateDAO = new PlayerStateDAO();
-        private ShopStateDAO shopStateDAO = new ShopStateDAO();
 
         public MySqlConnection MysqlConn { get => mysqlConn; set => MysqlConn = value; }
-        public Room Room { get => room; set => room = value; }
-        public int LocationIndex { get => locationIndex; set => locationIndex = value; }
+        public Room Room { get; set; }
+        public int LocationIndex { get; set; } = -1;
+        public ResultDAO ResultDAO { get; set; }
+        public CoinDAO CoinDAO { get; set; }
+        public PlayerStateDAO PlayerStateDAO { get; set; }
+        public ShopStateDAO ShopStateDAO { get; set; }
+        public RoleShopStateDAO RoleShopStateDAO { get; set; }
+        public ItemPriceDAO ItemPriceDAO { get; set; }
+        public UserDAO UserDAO { get; set; }
+        public Coin Coin { get; set; }
+        public PlayerState PlayerState { get; set; }
 
         public Client() { }
-        public Client(Socket clientSocket, Server server)
+        public Client(Socket clientSocket, Server server,CoinDAO coinDAO,ItemPriceDAO itemPriceDAO,PlayerStateDAO playerStateDAO,ResultDAO resultDAO,RoleShopStateDAO roleShopStateDAO,ShopStateDAO shopStateDAO,UserDAO userDAO)
         {
             this.clientSocket = clientSocket;
             this.server = server;
             mysqlConn = ConnHelper.Connect();
+            CoinDAO = coinDAO;
+            ItemPriceDAO = itemPriceDAO;
+            PlayerStateDAO = playerStateDAO;
+            ResultDAO = resultDAO;
+            RoleShopStateDAO = roleShopStateDAO;
+            ShopStateDAO = shopStateDAO;
+            UserDAO = userDAO;
         }
-        public void SetUserData(User user, Result result, Coin coin, PlayerState playerState, ShopState shopState)
+        public void SetUserData(User user, Result result, Coin coin, PlayerState playerState)
         {
             this.user = user;
             this.result = result;
-            this.coin = coin;
-            this.playerState = playerState;
-            this.shopState = shopState;
+            Coin = coin;
+            PlayerState = playerState;
         }
         public string GetUserData()
         {
-            return user.Id + "," + user.Username + "," + result.TotalCount + "," + result.WinCount + ","
-                + coin.CoinNum + "," + playerState.Health + "," + playerState.SkillTime;
+            return string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", 
+                user.Id, user.Username, result.TotalCount, result.WinCount, 
+                Coin.CoinNum, PlayerState.Health, PlayerState.SkillTime,
+                PlayerState.RoleSelect);
         }
 
         public void Start()
@@ -99,9 +107,9 @@ namespace GameServer.Servers
             {
                 clientSocket.Close();
                 //如果玩家加入了房间，先退出/销毁房间
-                if (room != null)
+                if (Room != null)
                 {
-                    room.QuitGame(this);
+                    Room.QuitGame(this);
                 }
                 //从登录用户列表中去掉此用户
                 if (user != null)
@@ -129,7 +137,7 @@ namespace GameServer.Servers
         }
         public bool IsHost()
         {
-            return room.IsHost(this);
+            return Room.IsHost(this);
         }
         //操作数据库
         public void UpdateResult(WinLoseType type)
@@ -140,56 +148,15 @@ namespace GameServer.Servers
             {
                 result.WinCount++;
             }
-            resultDAO.UpdateOrAddResult(mysqlConn, result);
+            ResultDAO.UpdateOrAddResult(mysqlConn, result);
             //通知客户端更新数据
             Send(ActionCode.UpdateResult, string.Format("{0},{1}", result.TotalCount, result.WinCount));
         }
         public void UpdateCoin(int coinNum)
         {
-            coin.CoinNum += coinNum;
-            coinDAO.UpdateOrAddCoin(mysqlConn, coin);
-            Send(ActionCode.UpdateCoin, string.Format("{0}", coin.CoinNum));
-        }
-            
-        public void UpdateShopState(string data)
-        {
-            int itemIndex = int.Parse(data.Split(',')[0]);
-            int itemPrice = int.Parse(data.Split(',')[1]);
-            coin.CoinNum -= itemPrice;
-            switch (itemIndex)
-            {
-                case 1:
-                    shopState.HealthTime++;
-                    playerState.Health += 1;
-                    ManyDAO();
-                    Send(ActionCode.BuyItem, string.Format("{0},{1},{2}",1,shopState.HealthTime, playerState.Health));
-                    break;
-                case 2:
-                    shopState.BigHealthTime++;
-                    playerState.Health += 2;
-                    ManyDAO();
-                    Send(ActionCode.BuyItem, string.Format("{0},{1},{2}", 2,shopState.BigHealthTime, playerState.Health));
-                    break;
-                case 3:
-                    shopState.SkillTimeTime++;
-                    playerState.SkillTime += 0.5f;
-                    ManyDAO();
-                    Send(ActionCode.BuyItem, string.Format("{0},{1},{2}", 3,shopState.SkillTimeTime, playerState.SkillTime));
-                    break;
-                case 4:
-                    shopState.BigSkillTimeTime++;
-                    playerState.SkillTime += 1;
-                    ManyDAO();
-                    Send(ActionCode.BuyItem, string.Format("{0},{1},{2}", 4,shopState.BigSkillTimeTime, playerState.SkillTime));
-                    break;
-            }
-            Send(ActionCode.UpdateCoin, string.Format("{0}", coin.CoinNum));
-        }
-        private void ManyDAO()
-        {
-            coinDAO.UpdateOrAddCoin(mysqlConn, coin);
-            shopStateDAO.UpdateOrAddShopState(mysqlConn, shopState);
-            playerStateDAO.UpdateOrAddPlayerState(mysqlConn, playerState);
+            Coin.CoinNum += coinNum;
+            CoinDAO.UpdateOrAddCoin(mysqlConn, Coin);
+            Send(ActionCode.UpdateCoin, string.Format("{0}", Coin.CoinNum));
         }
     }
 }

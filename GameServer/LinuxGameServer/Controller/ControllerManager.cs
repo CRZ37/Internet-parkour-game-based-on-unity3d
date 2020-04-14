@@ -26,13 +26,14 @@ namespace GameServer.Controller
             controllerDict.Add(RequestCode.Room, new RoomController());
             controllerDict.Add(RequestCode.Game, new GameController());
             controllerDict.Add(RequestCode.Shop, new ShopController());
+            controllerDict.Add(RequestCode.RoleShop, new RoleShopController());
         }
         public void HandleRequest(RequestCode requestCode, ActionCode actionCode, string data, Client client)
         {
             Console.WriteLine("数据解析完成，开始HandleRequest...");
             BaseController controller;
             bool isGet = controllerDict.TryGetValue(requestCode, out controller);
-            //如果参数给错了，本来存成日志的，这里先输出到控制台
+            //如果参数给错了
             if (!isGet)
             {
                 Console.WriteLine("无法得到" + requestCode + "对应的controller");

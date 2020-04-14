@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Common;
-
+using System;
 
 public class RoomListPanel : BasePanel
 {
@@ -38,11 +38,18 @@ public class RoomListPanel : BasePanel
         content.Find("CreatRoomButton").GetComponent<Button>().onClick.AddListener(OnCreateRoomClick);
         content.Find("RefreshButton").GetComponent<Button>().onClick.AddListener(OnRefreshClick);
         content.Find("ShopButton").GetComponent<Button>().onClick.AddListener(OnShopClick);
+        content.Find("RoleShopButton").GetComponent<Button>().onClick.AddListener(OnRoleShopClick);
         listRoomRequest = GetComponent<ListRoomRequest>();
         createRoomRequest = GetComponent<CreateRoomRequest>();
         joinRoomRequest = GetComponent<JoinRoomRequest>();
         logoutRequest = GetComponent<LogoutRequest>();
     }
+
+    private void OnRoleShopClick()
+    {
+        PausePanelPUNISHING(panelBG, content, UIPanelType.RoleShop, 120, 1500);
+    }
+
     private void OnShopClick()
     {
         PausePanelPUNISHING(panelBG, content, UIPanelType.Shop,120,1700);

@@ -7,6 +7,7 @@
     {
         None,
         Shop,
+        RoleShop,
         User,
         Room,
         Game

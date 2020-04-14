@@ -18,7 +18,7 @@ public class ShopItem : MonoBehaviour
 
     private void Awake()
     {
-        
+        buyState.text = "价格随购买次数增加";
     }
 
     public void OnBuyClick()
@@ -36,10 +36,9 @@ public class ShopItem : MonoBehaviour
             Debug.Log("购买失败");
         }       
     }
-    public void UpdateItemState(int buyTime, int price)
+    public void UpdateItemPrice(int price)
     {
         this.price = price;
-        buyState.text = "已购买" + buyTime + "次";
         priceText.text = "价格：" + price;
         buyButton.enabled = true;
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UserData
 {
+    //房间内页面使用此构造函数
     public UserData(string userData)
     {
         string[] strs = userData.Split(',');
@@ -15,12 +16,14 @@ public class UserData
         CoinNum = int.Parse(strs[4]);
         Health = int.Parse(strs[5]);
         SkillTime = float.Parse(strs[6]);
+        RoleSelectState = strs[7];
     }
-    
-    //只用来显示房间列表的UserData
-    public UserData(int id, string username, int totalCount, int winCount)
-        : this(id, username, totalCount, winCount, -1,-1,-1) { }
 
+    //显示房间列表的时候使用此构造函数
+    public UserData(int id, string username, int totalCount, int winCount)
+        : this(id, username, totalCount, winCount, -1, -1, -1) { }
+
+    //登录的时候使用此构造方法
     public UserData(int id, string username, int totalCount, int winCount, int coinNum, int health, float skillTime)
     {
         Id = id;
@@ -30,13 +33,18 @@ public class UserData
         CoinNum = coinNum;
         Health = health;
         SkillTime = skillTime;
+        //防止未初始化就访问
+        RoleBuyState = new int[3]{ -1,-1,-1};
     }
-    public void SetShopState(int healthTime,int bigHealthTime,int skillTimeTime,int bigSkillTimeTime)
+    public void SetRoleBuyState(int roleMaleBuyState, int roleCopBuyState, int roleRobotBuyState)
     {
-        HealthTime = healthTime;
-        BigHealthTime = bigHealthTime;
-        SkillTimeTime = skillTimeTime;
-        BigSkillTimeTime = bigSkillTimeTime;
+        RoleBuyState[0] = roleMaleBuyState;
+        RoleBuyState[1] = roleCopBuyState;
+        RoleBuyState[2] = roleRobotBuyState;
+    }
+    public void SetRoleSeclctState(string roleSelectState)
+    {
+        RoleSelectState = roleSelectState;
     }
     public int Id { get; set; }
     public string Username { get; set; }
@@ -45,8 +53,8 @@ public class UserData
     public int CoinNum { get; set; }
     public int Health { get; set; }
     public float SkillTime { get; set; }
-    public int HealthTime { get; set; }
-    public int BigHealthTime { get; set; }
-    public int SkillTimeTime { get; set; }
-    public int BigSkillTimeTime { get; set; }
+    public string RoleSelectState { get; set; }
+    //防止未初始化
+    public int[] RoleBuyState { get; set; }
+    //get => RoleBuyState ?? (new int[] { -1, -1, -1 }); set { RoleBuyState = value; } 
 }
