@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-
-public class Invincible : Item
+public class Heal:Item
 {
     public override void HitPlayer(Transform pos)
     {
         base.HitPlayer(pos);
         //播放声音
-        Game.Instance.sound.PlayEffect("Invincible");
+        Game.Instance.sound.PlayEffect("Heal");
         //回收
         Game.Instance.objectPool.Unspwan(gameObject);
     }
@@ -23,10 +22,10 @@ public class Invincible : Item
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == Tag.Player)
+        if (other.tag == Tag.Player)
         {
             HitPlayer(other.transform);
-            other.SendMessage("HitInvincible", SendMessageOptions.DontRequireReceiver);
+            other.SendMessage("HitHeal", SendMessageOptions.DontRequireReceiver);
         }
     }
 }

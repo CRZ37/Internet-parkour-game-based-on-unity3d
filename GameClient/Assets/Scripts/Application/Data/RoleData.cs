@@ -15,13 +15,18 @@ public class RoleData
     public Role_ResultRoleType Type { get; private set; }
     //玩家模型
     public GameObject RolePrefab { get; private set; }
-
-    public RoleData(Role_ResultRoleType type, string rolePath,Vector3 spawnPos,int health=-1,float skillTime=-1)
+    //玩家进入游戏之前就拥有的双倍金币道具次数
+    public int RoleMultiplyCoinTime { get; private set; }
+    //玩家进入游戏之前就拥有的无敌道具次数
+    public int RoleInvincibleTime { get; private set; }
+    public RoleData(Role_ResultRoleType type, string rolePath,Vector3 spawnPos,int health,float skillTime,int roleDoubleCoinTime,int roleInvincibleTime)
     {
         Type = type;
         RolePrefab = Resources.Load(rolePath) as GameObject;      
         SpawnPos = spawnPos;
         Health = health;
         SkillTime = skillTime;
+        RoleMultiplyCoinTime = roleDoubleCoinTime;
+        RoleInvincibleTime = roleInvincibleTime;
     }
 }

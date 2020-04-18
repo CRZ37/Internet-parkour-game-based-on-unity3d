@@ -56,7 +56,14 @@ public class RemotePlayerMove : MonoBehaviour
     //无敌协程
     private IEnumerator InvincibleCor;
     private bool canGameOver = true;
+    //判断对方是否使用道具
+    private bool useMultiply = false;
+    private bool useInvincible = false;
 
+    private Transform iPos;
+    private Transform mPos;
+
+    private Transform effectParent;
     public float Speed
     {
         get => speed;
@@ -120,6 +127,9 @@ public class RemotePlayerMove : MonoBehaviour
         skillTime = roleData.SkillTime;
         health = roleData.Health;
         maxHealth = health;
+        iPos = transform.Find("IPos").transform;
+        mPos = transform.Find("MPos").transform;
+        effectParent = GameObject.Find("EffectParent").transform;
         StartCoroutine(UpdateAction());
     }
     private void PlayJump()
@@ -147,6 +157,7 @@ public class RemotePlayerMove : MonoBehaviour
             {
                 yDis -= gravity * Time.deltaTime;
                 cc.Move((transform.forward * Speed + new Vector3(0, yDis, 0)) * Time.deltaTime);
+                UseItem();
                 MoveControl();
                 UpdatePosition();
                 UpdateSpeed();
@@ -166,7 +177,43 @@ public class RemotePlayerMove : MonoBehaviour
             yield return 0;
         }
     }
-
+    public void UseItemSync(ItemType itemType)
+    {
+        switch (itemType)
+        {
+            case ItemType.MultiplyCoin:
+                useMultiply = true;
+                break;
+            case ItemType.Invincible:
+                useInvincible = true;
+                break;
+        }
+    }
+    void UseItem()
+    {
+        if (useMultiply)
+        {
+            Debug.Log("另一方双倍金币");
+            //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
+            if (MultiplyCor != null)
+            {
+                StopCoroutine(MultiplyCor);
+            }
+            MultiplyCor = MultiplyCoroutine();
+            StartCoroutine(MultiplyCor);
+        }
+        if (useInvincible)
+        {
+            Debug.Log("另一方无敌状态");
+            //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
+            if (InvincibleCor != null)
+            {
+                StopCoroutine(InvincibleCor);
+            }
+            InvincibleCor = InvincibleCoroutine();
+            StartCoroutine(InvincibleCor);
+        }
+    }
     //更新位置
     void UpdatePosition()
     {
@@ -288,47 +335,58 @@ public class RemotePlayerMove : MonoBehaviour
     //吃金币
     public void HitCoin()
     {
-        Debug.Log("remote吃到金币");
+        Debug.Log("remote吃到金币！");
     }
 
     //吃双倍金币
     public void HitMultiply()
     {
-        Debug.Log("双倍金币");
-        //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
-        if (MultiplyCor != null)
-        {
-            StopCoroutine(MultiplyCor);
-        }
-        MultiplyCor = MultiplyCoroutine();
-        StartCoroutine(MultiplyCor);
+        Debug.Log("remote吃到双倍道具！");
     }
 
     //双倍金币协程
     IEnumerator MultiplyCoroutine()
     {
+        useMultiply = false;
+
         multiTip = "双倍金币";
+
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Invincible", effectParent);
+        //effectGO.transform.position = mPos.position;
+        effectGO.transform.parent = mPos;
+        effectGO.transform.localPosition = Vector3.zero;
+
         yield return new WaitForSeconds(skillTime);
+
+        Game.Instance.objectPool.Unspwan(effectGO);
         multiTip = null;
     }
 
     //无敌状态
     public void HitInvincible()
     {
-        Debug.Log("无敌状态");
-        //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
-        if (InvincibleCor != null)
-        {
-            StopCoroutine(InvincibleCor);
-        }
-        InvincibleCor = InvincibleCoroutine();
-        StartCoroutine(InvincibleCor);
+        Debug.Log("remote吃到无敌道具！");
+    }
+
+    public void HitHeal()
+    {
+        Debug.Log("remote吃到回复！");
     }
     //无敌协程
     IEnumerator InvincibleCoroutine()
     {
+        useInvincible = false;
+
         invincibleTip = "无敌";
+
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Multiply", effectParent);
+        //effectGO.transform.position = iPos.position;
+        effectGO.transform.parent = iPos;
+        effectGO.transform.localPosition = Vector3.zero;
+
         yield return new WaitForSeconds(skillTime);
+
+        Game.Instance.objectPool.Unspwan(effectGO);
         invincibleTip = null;
     }
     private void OnTriggerEnter(Collider other)

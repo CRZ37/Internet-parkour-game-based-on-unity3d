@@ -1,6 +1,5 @@
 ﻿using Common;
-
-public class GetCoinRequest : BaseRequest
+public class UseItemRequest : BaseRequest
 {
     private RemotePlayerMove remotePlayerMove;
     public void SetRemotePlayerMove(RemotePlayerMove remotePlayerMove)
@@ -10,16 +9,16 @@ public class GetCoinRequest : BaseRequest
     public override void Awake()
     {
         requestCode = RequestCode.Game;
-        actionCode = ActionCode.GetCoin;
+        actionCode = ActionCode.UseItem;
         base.Awake();
     }
-    public void SendCoinRequest(int coin)
+    public void SendUseItemRequest(ItemType itemType)
     {
-        SendRequest(coin.ToString());
+        SendRequest(((int)itemType).ToString());
     }
     public override void OnResponse(string data)
     {
-        int remoteCoin = int.Parse(data);
-        remotePlayerMove.SyncRemoteCoin(remoteCoin);
+        ItemType itemType = (ItemType)int.Parse(data);
+        remotePlayerMove.UseItemSync(itemType);
     }
 }

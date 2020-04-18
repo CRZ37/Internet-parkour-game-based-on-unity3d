@@ -5,6 +5,20 @@ using UnityEngine.UI;
 using Common;
 using System;
 
+struct RoleProperty
+{
+    public string rolePath;
+    public int roleMultiplyCoinTime;
+    public int roleInvincibleTime;
+
+    public RoleProperty(string rolePath, int roleMultiplyCoinTime, int roleInvincibleTime)
+    {
+        this.rolePath = rolePath;
+        this.roleMultiplyCoinTime = roleMultiplyCoinTime;
+        this.roleInvincibleTime = roleInvincibleTime;
+    }
+}
+
 public class PlayerManager : BaseManager
 {
     //本地玩家的状态
@@ -36,10 +50,10 @@ public class PlayerManager : BaseManager
     public ShopData ShopData { get; set; }
     public GameData GameData { get; set; }
     private Dictionary<Role_ResultRoleType, RoleData> roleDataDict = new Dictionary<Role_ResultRoleType, RoleData>();
-    private Dictionary<string, string> roleSelectDict = new Dictionary<string, string>();
+    private Dictionary<string, RoleProperty> rolePropertyDict = new Dictionary<string, RoleProperty>();
     private Role_ResultRoleType localRoleType;
     private GameObject remoteRoleGameObject;
-    private GameObject gamePanel;
+    private GameObject gamePanelgo;
     private CamFollowPlayer camFollowPlayer;
     private bool isEnterPlaying = false;
     private bool canPlayPlayingBG = false;
@@ -48,9 +62,9 @@ public class PlayerManager : BaseManager
     private int index2 = -1;
     public PlayerManager()
     {
-        roleSelectDict.Add("1", "Players/RoleMale");
-        roleSelectDict.Add("2", "Players/RoleCop");
-        roleSelectDict.Add("3", "Players/RoleRobot");
+        rolePropertyDict.Add("1", new RoleProperty("Players/RoleMale", 0, 0));
+        rolePropertyDict.Add("2", new RoleProperty("Players/RoleCop", 1, 1));
+        rolePropertyDict.Add("3", new RoleProperty("Players/RoleRobot", 2, 2));
     }
     public override void Update()
     {
@@ -69,9 +83,9 @@ public class PlayerManager : BaseManager
     {
         ShopData.SetPropertyShopState(healthPrice, bigHealthPrice, skillTimePrice, bigSkillTimePrice);
     }
-    public void SetRoleBuyState(int roleMaleBuyState,int roleCopBuyState,int roleRobotBuyState)
+    public void SetRoleBuyState(int roleMaleBuyState, int roleCopBuyState, int roleRobotBuyState)
     {
-        UserData.SetRoleBuyState(roleMaleBuyState,roleCopBuyState,roleRobotBuyState);
+        UserData.SetRoleBuyState(roleMaleBuyState, roleCopBuyState, roleRobotBuyState);
     }
     public void SetRoleSelectState(string roleSelectState)
     {
@@ -135,10 +149,10 @@ public class PlayerManager : BaseManager
     private void InitRoleDataDict()
     {
         //获取另一个客户端的角色选择
-        string hostRoleSelect = roleSelectDict[hostUser.RoleSelectState];
-        string clientRoleSelect = roleSelectDict[clientUser.RoleSelectState];
-        roleDataDict.Add(Role_ResultRoleType.Host, new RoleData(Role_ResultRoleType.Host, hostRoleSelect, hostPos, hostUser.Health,hostUser.SkillTime));
-        roleDataDict.Add(Role_ResultRoleType.Client, new RoleData(Role_ResultRoleType.Client, clientRoleSelect, clientPos, clientUser.Health,clientUser.SkillTime));
+        string hostRoleSelect = rolePropertyDict[hostUser.RoleSelectState].rolePath;
+        string clientRoleSelect = rolePropertyDict[clientUser.RoleSelectState].rolePath;
+        roleDataDict.Add(Role_ResultRoleType.Host, new RoleData(Role_ResultRoleType.Host, hostRoleSelect, hostPos, hostUser.Health, hostUser.SkillTime,rolePropertyDict[hostUser.RoleSelectState].roleMultiplyCoinTime, rolePropertyDict[hostUser.RoleSelectState].roleInvincibleTime));
+        roleDataDict.Add(Role_ResultRoleType.Client, new RoleData(Role_ResultRoleType.Client, clientRoleSelect, clientPos, clientUser.Health, clientUser.SkillTime, rolePropertyDict[hostUser.RoleSelectState].roleMultiplyCoinTime, rolePropertyDict[hostUser.RoleSelectState].roleInvincibleTime));
     }
     //设置玩家的姓名
     public void SetPlayersData(UserData hostUser, UserData clientUser)
@@ -151,17 +165,20 @@ public class PlayerManager : BaseManager
     //初始化角色时脚本添加顺序十分重要，为了防止空指针，不再使用生命周期中的Start或Awake，改为手动赋值。
     public void SpawnRoles()
     {
-        gamePanel = GameObject.FindGameObjectWithTag(Tag.GamePanel);
+        gamePanelgo = GameObject.FindGameObjectWithTag(Tag.GamePanel);
         InitRoleDataDict();
-        LocalMoveRequest localMoveRequest = gamePanel.GetComponent<LocalMoveRequest>();
-        RemoteMoveRequest remoteMoveRequest = gamePanel.GetComponent<RemoteMoveRequest>();
-        TakeDamageRequest takeDamageRequest = gamePanel.GetComponent<TakeDamageRequest>();
-        GetCoinRequest getCoinRequest = gamePanel.GetComponent<GetCoinRequest>();
-        GameOverRequest gameOverRequest = gamePanel.GetComponent<GameOverRequest>();
+        GamePanel gamePanel = gamePanelgo.GetComponent<GamePanel>();
+        gamePanel.initNumandAnim();
+        LocalMoveRequest localMoveRequest = gamePanelgo.GetComponent<LocalMoveRequest>();
+        RemoteMoveRequest remoteMoveRequest = gamePanelgo.GetComponent<RemoteMoveRequest>();
+        TakeDamageRequest takeDamageRequest = gamePanelgo.GetComponent<TakeDamageRequest>();
+        GetCoinRequest getCoinRequest = gamePanelgo.GetComponent<GetCoinRequest>();
+        GameOverRequest gameOverRequest = gamePanelgo.GetComponent<GameOverRequest>();
+        UseItemRequest useItemRequest = gamePanelgo.GetComponent<UseItemRequest>();
         LocalPlayerMove localPlayerMove = null;
         RemotePlayerMove remotePlayerMove = null;
 
-        //生成玩家的时候添加脚本，一定要注意添加脚本时的初始化操作
+        //生成玩家的时候添加脚本，一定要注意添加脚本时的初始化操作,防止遗漏一条一条操作
         foreach (RoleData roleData in roleDataDict.Values)
         {
             GameObject go = GameObject.Instantiate(roleData.RolePrefab, roleData.SpawnPos, Quaternion.identity);
@@ -182,17 +199,18 @@ public class PlayerManager : BaseManager
                     localMoveRequest,
                     takeDamageRequest,
                     getCoinRequest,
-                    gameOverRequest);
+                    gameOverRequest,
+                    useItemRequest);
                 CreateRoadRequest createRoadRequest = LocalRoleGameObject.AddComponent<CreateRoadRequest>();
                 roadChange.SetCreateRoadRequest(createRoadRequest, index1, index2);
                 //设置UI信息
                 switch (roleData.Type)
                 {
                     case Role_ResultRoleType.Host:
-                        localPlayerMove.SetLocalPlayerState(hostName.text, clientName.text, hostHealthTran, hostCoinText, hostItemText);
+                        localPlayerMove.SetLocalPlayerState(hostName.text, clientName.text, hostHealthTran, hostCoinText, hostItemText,gamePanel.MultiplyNum,gamePanel.InvincibleNum,gamePanel.MultiplyAnim,gamePanel.InvincibleAnim);
                         break;
                     case Role_ResultRoleType.Client:
-                        localPlayerMove.SetLocalPlayerState(clientName.text, hostName.text, clientHealthTran, clientCoinText, clientItemText);
+                        localPlayerMove.SetLocalPlayerState(clientName.text, hostName.text, clientHealthTran, clientCoinText, clientItemText, gamePanel.MultiplyNum, gamePanel.InvincibleNum, gamePanel.MultiplyAnim, gamePanel.InvincibleAnim);
                         break;
                 }
             }
@@ -205,6 +223,7 @@ public class PlayerManager : BaseManager
                 remoteMoveRequest.SetRemotePlayerMove(remotePlayerMove);
                 takeDamageRequest.SetRemotePlayerMove(remotePlayerMove);
                 getCoinRequest.SetRemotePlayerMove(remotePlayerMove);
+                useItemRequest.SetRemotePlayerMove(remotePlayerMove);
                 //设置UI信息
                 switch (roleData.Type)
                 {

@@ -15,12 +15,17 @@ public class LocalPlayerMove : MonoBehaviour
     private GameOverRequest gameOverRequest;
     private GetCoinRequest getCoinRequest;
     private RemotePlayerMove remotePlayerMove;
+    private UseItemRequest useItemRequest;
     //本地玩家的状态
     private string localPlayerName;
     private string remotePlayerName;
     private Transform localHealth;
     private Text localCoinText;
     private Text localItemText;
+    private Text multiplyNum;
+    private Text invincibleNum;
+    private Animator multiplyAnim;
+    private Animator invincibleAnim;
     //本局游戏金币数
     private int localCoin = 0;
     //重力
@@ -34,7 +39,6 @@ public class LocalPlayerMove : MonoBehaviour
     private const float speedAddRate = 0.5f;
     private const float maxSpeed = 32;
     private const float hitLimit = 0.2f;
-
     public float speed = 15;
     private CharacterController cc;
     private MoveDirection inputDir = MoveDirection.Null;
@@ -60,6 +64,8 @@ public class LocalPlayerMove : MonoBehaviour
     private int multiTime = 1;
     private float skillTime;
     private int health;
+    private int multiplyCoinTime;
+    private int invincibleTime;
     private int maxHealth;
     private bool isInvincible = false;
     //双倍金币协程
@@ -71,6 +77,10 @@ public class LocalPlayerMove : MonoBehaviour
     //移动不能中断
     private bool isMoving = false;
 
+    private Transform iPos;
+    private Transform mPos;
+
+    private Transform effectParent;
     public float Speed
     {
         get => speed;
@@ -90,7 +100,7 @@ public class LocalPlayerMove : MonoBehaviour
     {
         this.remotePlayerMove = remotePlayerMove;
     }
-    public void SetGameDataAndRoleDataAndRequests(GameData gameData, RoleData roleData, LocalMoveRequest moveRequest, TakeDamageRequest takeDamageRequest, GetCoinRequest getCoinRequest, GameOverRequest gameOverRequest)
+    public void SetGameDataAndRoleDataAndRequests(GameData gameData, RoleData roleData, LocalMoveRequest moveRequest, TakeDamageRequest takeDamageRequest, GetCoinRequest getCoinRequest, GameOverRequest gameOverRequest, UseItemRequest useItemRequest)
     {
         this.gameData = gameData;
         this.roleData = roleData;
@@ -98,6 +108,7 @@ public class LocalPlayerMove : MonoBehaviour
         this.getCoinRequest = getCoinRequest;
         this.takeDamageRequest = takeDamageRequest;
         this.gameOverRequest = gameOverRequest;
+        this.useItemRequest = useItemRequest;
         switch (roleData.Type)
         {
             case Role_ResultRoleType.Client:
@@ -110,23 +121,36 @@ public class LocalPlayerMove : MonoBehaviour
                 break;
         }
     }
-    public void SetLocalPlayerState(string localPlayerName, string remotePlayerName, Transform localHealth, Text localCoinText, Text localItemText)
+    public void SetLocalPlayerState(string localPlayerName, string remotePlayerName, Transform localHealth, Text localCoinText, Text localItemText, Text multiplyNum, Text invincibleNum, Animator multiplyAnim, Animator invincibleAnim)
     {
         this.localPlayerName = localPlayerName;
         this.remotePlayerName = remotePlayerName;
         this.localHealth = localHealth;
         this.localCoinText = localCoinText;
         this.localItemText = localItemText;
+        this.multiplyNum = multiplyNum;
+        this.invincibleNum = invincibleNum;
+        this.multiplyAnim = multiplyAnim;
+        this.invincibleAnim = invincibleAnim;
+
         HPBar = this.localHealth.Find("HPBar").GetComponent<Image>();
     }
     private void Start()
     {
         cc = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+        //除了生命值和技能时间之外再增加双倍金币次数和无敌次数
         skillTime = roleData.SkillTime;
         health = roleData.Health;
+        multiplyCoinTime = roleData.RoleMultiplyCoinTime;
+        invincibleTime = roleData.RoleInvincibleTime;
+        multiplyNum.text = multiplyCoinTime.ToString();
+        invincibleNum.text = invincibleTime.ToString();
         Debug.Log(health);
         maxHealth = health;
+        iPos = transform.Find("IPos").transform;
+        mPos = transform.Find("MPos").transform;
+        effectParent = GameObject.Find("EffectParent").transform;
         StartCoroutine(UpdateAction());
     }
     private void PlayJump()
@@ -154,6 +178,7 @@ public class LocalPlayerMove : MonoBehaviour
             {
                 yDis -= gravity * Time.deltaTime;
                 cc.Move((transform.forward * Speed + new Vector3(0, yDis, 0)) * Time.deltaTime);
+                UseItem();
                 MoveControl();
                 GetDirection();
                 UpdatePosition();
@@ -175,6 +200,32 @@ public class LocalPlayerMove : MonoBehaviour
         }
     }
 
+    private void UseItem()
+    {
+        if (Input.GetKeyDown(KeyCode.Z) && multiplyCoinTime > 0)
+        {
+            Debug.Log("双倍金币！！！");
+            //如果在双倍金币时间结束前又用到一个，就刷新技能时间，就是先停下现在的再开一个新的
+            if (MultiplyCor != null)
+            {
+                StopCoroutine(MultiplyCor);
+            }
+            MultiplyCor = MultiplyCoroutine();
+            StartCoroutine(MultiplyCor);
+        }
+        if (Input.GetKeyDown(KeyCode.X) && invincibleTime > 0)
+        {
+            Debug.Log("无敌状态！！！！！！");
+            //如果在无敌时间结束前又用到一个，就刷新技能时间，就是先停下现在的再开一个新的
+            if (InvincibleCor != null)
+            {
+                Debug.Log("无敌状态刷新！！！！！！");
+                StopCoroutine(InvincibleCor);
+            }
+            InvincibleCor = InvincibleCoroutine();
+            StartCoroutine(InvincibleCor);
+        }
+    }
     //获取玩家输入的方向
     private void GetDirection()
     {
@@ -346,26 +397,42 @@ public class LocalPlayerMove : MonoBehaviour
         localCoin += multiTime;
         getCoinRequest.SendCoinRequest(localCoin);
     }
+    //吃回复道具
+    public void HitHeal()
+    {
+        Debug.Log("local吃到了回复道具！");
+        if (health < maxHealth)
+        {
+            health++;
+        }
+        takeDamageRequest.SendDamageRequest(health);
+    }
 
     //吃双倍金币
     public void HitMultiply()
     {
-        Debug.Log("双倍金币！！！");
-        //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
-        if (MultiplyCor != null)
-        {
-            StopCoroutine(MultiplyCor);
-        }
-        MultiplyCor = MultiplyCoroutine();
-        StartCoroutine(MultiplyCor);
+        multiplyCoinTime++;
+        multiplyNum.text = multiplyCoinTime.ToString();
     }
-
     //双倍金币协程
     IEnumerator MultiplyCoroutine()
     {
+        multiplyCoinTime--;
+        multiplyNum.text = multiplyCoinTime.ToString();
+        multiplyAnim.SetTrigger("UsingItem");
+
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Multiply", effectParent);
+        //effectGO.transform.position = mPos.position;
+        effectGO.transform.parent = mPos;
+        effectGO.transform.localPosition = Vector3.zero;
+
+        useItemRequest.SendUseItemRequest(ItemType.MultiplyCoin);
         multiTip = "双倍金币";
         multiTime = 2;
+
         yield return new WaitForSeconds(skillTime);
+
+        Game.Instance.objectPool.Unspwan(effectGO);
         multiTip = "";
         multiTime = 1;
     }
@@ -373,22 +440,28 @@ public class LocalPlayerMove : MonoBehaviour
     //无敌状态
     public void HitInvincible()
     {
-        Debug.Log("无敌状态！！！！！！！！");
-        //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
-        if (InvincibleCor != null)
-        {
-            Debug.Log("无敌状态刷新！！！！！！！！");
-            StopCoroutine(InvincibleCor);
-        }
-        InvincibleCor = InvincibleCoroutine();
-        StartCoroutine(InvincibleCor);
+        invincibleTime++;
+        invincibleNum.text = invincibleTime.ToString();
     }
     //无敌协程
     IEnumerator InvincibleCoroutine()
     {
+        invincibleTime--;
+        invincibleNum.text = invincibleTime.ToString();
+        invincibleAnim.SetTrigger("UsingItem");
+
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Invincible",effectParent);
+        //effectGO.transform.position = iPos.position;
+        effectGO.transform.parent = iPos;
+        effectGO.transform.localPosition = Vector3.zero;
+
+        useItemRequest.SendUseItemRequest(ItemType.Invincible);
         invincibleTip = "无敌";
         isInvincible = true;
+
         yield return new WaitForSeconds(skillTime);
+
+        Game.Instance.objectPool.Unspwan(effectGO);
         invincibleTip = "";
         isInvincible = false;
     }

@@ -15,7 +15,6 @@ public class Coin : Item
         Game.Instance.sound.PlayEffect("Coin");
         //回收
         Game.Instance.objectPool.Unspwan(gameObject);
-        //(gameObject);
     }
 
     public override void OnSpawn()

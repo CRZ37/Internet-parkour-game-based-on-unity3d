@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Common;
-using System;
 
 public class GamePanel : BasePanel
 {
@@ -17,26 +16,42 @@ public class GamePanel : BasePanel
     private Text loserName;
     private Text loserScore;
     private Text result;
+    public Text MultiplyNum { get; set; }
+    public Text InvincibleNum { get; set; }
+    public Animator MultiplyAnim { get; set; }
+    public Animator InvincibleAnim { get; set; }
+
     private Button confirmButton;
     private Button exitButton;
     private QuitBattleRequest quitBattleRequest;
     private bool isGameOver = false;
     private bool isExit = false;
+
     private void Awake()
     {       
         timer = transform.Find("Timer").GetComponent<Text>();
+
         gameResult = transform.Find("GameResult").transform;
         winnerName = gameResult.Find("Winner/WinnerName").GetComponent<Text>();
         winnerScore = gameResult.Find("Winner/WinnerScore").GetComponent<Text>();
         loserName = gameResult.Find("Loser/LoserName").GetComponent<Text>();
         loserScore = gameResult.Find("Loser/LoserScore").GetComponent<Text>();
         result = gameResult.Find("Result").GetComponent<Text>();
+
         confirmButton = gameResult.Find("ConfirmButton").GetComponent<Button>();
         exitButton = transform.Find("ExitButton").GetComponent<Button>();
         quitBattleRequest = GetComponent<QuitBattleRequest>();
         exitButton.gameObject.SetActive(false);
         confirmButton.onClick.AddListener(OnConfirmClick);
         exitButton.onClick.AddListener(OnExitClick);
+    }
+    //防止生命周期调用的时候顺序未考虑周全而导致空指针
+    public void initNumandAnim()
+    {
+        MultiplyNum = transform.Find("ItemPanel/Multiply/MultiplyNum").GetComponent<Text>();
+        InvincibleNum = transform.Find("ItemPanel/Invincible/InvincibleNum").GetComponent<Text>();
+        MultiplyAnim = transform.Find("ItemPanel/Multiply/MultiplyImg").GetComponent<Animator>();
+        InvincibleAnim = transform.Find("ItemPanel/Invincible/InvincibleImg").GetComponent<Animator>();
     }
     private void OnExitClick()
     {

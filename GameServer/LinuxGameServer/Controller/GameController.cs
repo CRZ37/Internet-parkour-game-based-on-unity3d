@@ -57,14 +57,24 @@ namespace GameServer.Controller
         //两个客户端同步血量
         public void TakeDamage(string data, Client client, Server server)
         {
-            //将一个client转发到其它client
-            client.Room.BroadcastMessage(client, ActionCode.TakeDamage, data);
+            //将一个client转发到其它client,可能会出现游戏结束的瞬间又碰到第二个障碍物的情况，这时候Room
+            //已经close了
+            if (client.Room != null)
+            {
+                client.Room.BroadcastMessage(client, ActionCode.TakeDamage, data);
+            }           
         }
         //两个客户端同步金币
         public void GetCoin(string data, Client client, Server server)
         {
             //将一个client转发到其它client
             client.Room.BroadcastMessage(client, ActionCode.GetCoin, data);
+        }
+        //两个客户端同步使用道具
+        public void UseItem(string data, Client client, Server server)
+        {
+            //将一个client转发到其它client
+            client.Room.BroadcastMessage(client, ActionCode.UseItem, data);
         }
         public void GameOver(string data, Client client, Server server)
         {

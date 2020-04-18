@@ -32,6 +32,7 @@
         SelectRoleItem,
         BuyRoleItem,
         UpdateRoleShop,
-        UpdatePlayerState
+        UpdatePlayerState,
+        UseItem
     }
 }
