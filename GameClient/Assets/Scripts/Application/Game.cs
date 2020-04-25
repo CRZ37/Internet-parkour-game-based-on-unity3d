@@ -84,6 +84,14 @@ public class Game : MonoSingleton<Game>
     {
         playerMng.UserData = userData;
     }
+    public GameData GetGameData()
+    {
+        return playerMng.GameData;
+    }
+    public void SetGameData(GameData gameData)
+    {
+        playerMng.GameData = gameData;
+    }
     public UserData GetUserData()
     {
         return playerMng.UserData;

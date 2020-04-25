@@ -23,44 +23,48 @@ namespace GameServer.Servers
         private List<Client> clientsInRoom = new List<Client>();
         private RoomState roomState = RoomState.WaitingJoin;
         private Server server;
+        public static readonly object objLock = new object();
         public Room(Server server)
         {
             this.server = server;
         }
         public void Move(Client localClient, string data)
         {
-            MoveDirection inputDir = (MoveDirection)int.Parse(data);
-            switch (inputDir)
+            lock (objLock)
             {
-                case MoveDirection.Left:
-                    localClient.LocationIndex--;
-                    if (localClient.LocationIndex < 1 || clientsInRoom[0].LocationIndex == clientsInRoom[1].LocationIndex)
-                    {
-                        //如果移动后重合，那么不移动
-                        localClient.LocationIndex++;
-                    }
-                    else
-                    {
-                        BroadcastMoveMessage(localClient, data);
-                    }
-                    break;
-                case MoveDirection.Right:
-                    localClient.LocationIndex++;
-                    if (localClient.LocationIndex > 6 || clientsInRoom[0].LocationIndex == clientsInRoom[1].LocationIndex)
-                    {
-                        //如果移动后重合，那么不移动
+                MoveDirection inputDir = (MoveDirection)int.Parse(data);
+                switch (inputDir)
+                {
+                    case MoveDirection.Left:
                         localClient.LocationIndex--;
-                    }
-                    else
-                    {
-                        //否则发送信息
+                        if (localClient.LocationIndex < 1 || clientsInRoom[0].LocationIndex == clientsInRoom[1].LocationIndex)
+                        {
+                            //如果移动后重合，那么不移动
+                            localClient.LocationIndex++;
+                        }
+                        else
+                        {
+                            BroadcastMoveMessage(localClient, data);
+                        }
+                        break;
+                    case MoveDirection.Right:
+                        localClient.LocationIndex++;
+                        if (localClient.LocationIndex > 6 || clientsInRoom[0].LocationIndex == clientsInRoom[1].LocationIndex)
+                        {
+                            //如果移动后重合，那么不移动
+                            localClient.LocationIndex--;
+                        }
+                        else
+                        {
+                            //否则发送信息
+                            BroadcastMoveMessage(localClient, data);
+                        }
+                        break;
+                    default:
                         BroadcastMoveMessage(localClient, data);
-                    }
-                    break;
-                default:
-                    BroadcastMoveMessage(localClient, data);
-                    break;
-            }
+                        break;
+                }
+            }      
         }
         public bool IsWaitingJoin()
         {
@@ -68,18 +72,24 @@ namespace GameServer.Servers
         }
         public void AddClient(Client client)
         {
-            clientsInRoom.Add(client);
-            client.Room = this;
-            if (clientsInRoom.Count >= 2)
+            lock (objLock)
             {
-                roomState = RoomState.WaitingBattle;
-            }
+                clientsInRoom.Add(client);
+                client.Room = this;
+                if (clientsInRoom.Count >= 2)
+                {
+                    roomState = RoomState.WaitingBattle;
+                }
+            }          
         }
         public void RemoveClient(Client client)
         {
-            client.Room = null;
-            clientsInRoom.Remove(client);
-            roomState = RoomState.WaitingJoin;
+            lock (objLock)
+            {
+                client.Room = null;
+                clientsInRoom.Remove(client);
+                roomState = RoomState.WaitingJoin;
+            }         
         }
         //返回房主信息
         public string GetHostOwner()
@@ -88,15 +98,17 @@ namespace GameServer.Servers
         }
         public void QuitGame(Client client)
         {
-            if (client == clientsInRoom[0])
+            lock (objLock)
             {
-                Close();
+                if (client == clientsInRoom[0])
+                {
+                    Close();
+                }
+                else
+                {
+                    clientsInRoom.Remove(client);
+                }
             }
-            else
-            {
-                clientsInRoom.Remove(client);
-            }
-
         }
         public int GetId()
         {

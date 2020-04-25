@@ -10,7 +10,8 @@ public class RoleShopItem : MonoBehaviour
     [SerializeField]
     private RoleShopPanel roleShopPanel;
     [SerializeField]
-    private Text price;
+    private Text priceText;
+    private int price;
     [SerializeField]
     private Button selectButton;
     [SerializeField]
@@ -29,7 +30,16 @@ public class RoleShopItem : MonoBehaviour
     }
     public void OnBuyClick()
     {
-        roleShopPanel.OnBuyClick(string.Format("{0},{1}",itemId,price.text));
+        if (Game.Instance.GetUserData().CoinNum >= price)
+        {
+            Debug.Log("已购买" + itemId + "号物品");
+            roleShopPanel.OnBuyClick(string.Format("{0},{1}", itemId, priceText.text));
+        }
+        else
+        {
+            Debug.Log("购买失败");
+        }
+            
     }
     public void SetBuy()
     {
@@ -48,6 +58,7 @@ public class RoleShopItem : MonoBehaviour
 
     public void SetPrice(string price)
     {
-        this.price.text = price;
+        priceText.text = price;
+        this.price = int.Parse(price);
     }
 }

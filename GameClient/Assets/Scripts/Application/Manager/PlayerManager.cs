@@ -129,7 +129,7 @@ public class PlayerManager : BaseManager
     public override void OnInit()
     {
         //游戏初始状态：非暂停，未开始
-        GameData = new GameData(false);
+        GameData = new GameData(false,false,false);
 
         players = GameObject.Find("Players").transform;
         camFollowPlayer = GameObject.Find("CameraAndOthers/Camera").GetComponent<CamFollowPlayer>();

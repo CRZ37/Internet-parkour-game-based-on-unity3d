@@ -44,7 +44,14 @@ public class ShopPanel : BasePanel
         UserData userData = Game.Instance.GetUserData();
         healthText.text = userData.Health.ToString();
         skillTimeText.text = userData.SkillTime.ToString();
-        updateShopRequest.SendUpdateShopRequest();
+        GameData gameData = Game.Instance.GetGameData();
+        if (!gameData.IsLoadProperty)
+        {
+            updateShopRequest.SendUpdateShopRequest();
+            gameData.IsLoadProperty = true;
+            Game.Instance.SetGameData(gameData);
+        }
+        
         OpenPanelPUNISHING(panelBG, content, 800, 120, 1500);
     }
 

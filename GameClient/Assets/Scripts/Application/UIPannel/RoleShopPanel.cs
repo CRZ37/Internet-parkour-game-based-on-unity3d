@@ -40,7 +40,13 @@ public class RoleShopPanel : BasePanel
     public override void OnEnter()
     {
         //查看哪个人物是被选中的，显示它的选择框，也查看哪个人物被购买了，将其购买按钮禁用并显示“已购买”
-        updateRoleShopRequest.SendUpdateRequest();
+        GameData gameData = Game.Instance.GetGameData();
+        if (!gameData.IsLoadRole)
+        {
+            updateRoleShopRequest.SendUpdateRequest();
+            gameData.IsLoadRole = true;
+            Game.Instance.SetGameData(gameData);
+        }       
         OpenPanelPUNISHING(panelBG, content, 800, 120, 1500);
     }
     public void OnBuyClick(string buyInfo)
