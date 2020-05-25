@@ -36,6 +36,7 @@ public class ShopPanel : BasePanel
 
     private void OnCloseClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         ClosePanelPUNISHING(panelBG, content, 120, 1500);
     }
 
@@ -47,9 +48,11 @@ public class ShopPanel : BasePanel
         GameData gameData = Game.Instance.GetGameData();
         if (!gameData.IsLoadProperty)
         {
+            Debug.Log("只更新一次");
             updateShopRequest.SendUpdateShopRequest();
             gameData.IsLoadProperty = true;
-            Game.Instance.SetGameData(gameData);
+            //不用再set
+            //Game.Instance.SetGameData(gameData);
         }
         
         OpenPanelPUNISHING(panelBG, content, 800, 120, 1500);
@@ -85,7 +88,7 @@ public class ShopPanel : BasePanel
     {
         //返回值为是否成功，购买的物品序号，购买后当前的属性
         UIMng.ShowMessageSync("购买成功");
-        string[] shopDatas = shopData.Split(',');
+        string[] shopDatas = itemAndCoinData.Split(',');
         int itemId = int.Parse(shopDatas[0]);
         float value = float.Parse(shopDatas[1]);
         int newprice = int.Parse(shopDatas[2]);
@@ -140,6 +143,9 @@ public class ShopPanel : BasePanel
         }
         skillTimeText.text = userData.SkillTime.ToString();
     }
+    /// <summary>
+    /// 更新属性商店
+    /// </summary>
     private void UpdateShopState()
     {
         string[] priceDatas = shopData.Split(',');
@@ -151,6 +157,9 @@ public class ShopPanel : BasePanel
             int bigHealthPrice = int.Parse(priceDatas[2]);
             int skillTimePrice = int.Parse(priceDatas[3]);
             int bigSkillTimePrice = int.Parse(priceDatas[4]);
+            ShopData shopData = new ShopData(healthPrice, bigHealthPrice, skillTimePrice, bigSkillTimePrice);
+            Game.Instance.SetShopData(shopData);
+            //设置商品价格
             SetItemAndCoinState(1, healthPrice);
             SetItemAndCoinState(2, bigHealthPrice);
             SetItemAndCoinState(3, skillTimePrice);

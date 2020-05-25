@@ -9,9 +9,16 @@ public class ShopData
     public int SkillTimePrice { get; set; }
     public int BigSkillTimePrice { get; set; }
 
-    public int RoleMalePrice { get; set; }
-    public int RoleCopPrice { get; set; }
-    public int RoleRobotPrice { get; set; }
+    //public int RoleMalePrice { get; set; }
+    //public int RoleCopPrice { get; set; }
+    //public int RoleRobotPrice { get; set; }
+    public ShopData(int healthPrice, int bigHealthPrice, int skillTimePrice, int bigSkillTimePrice)
+    {
+        HealthPrice = healthPrice;
+        BigHealthPrice = bigHealthPrice;
+        SkillTimePrice = skillTimePrice;
+        BigSkillTimePrice = bigSkillTimePrice;
+    }
     public void SetPropertyShopState(int healthPrice, int bigHealthPrice, int skillTimePrice, int bigSkillTimePrice)
     {
         HealthPrice = healthPrice;
@@ -19,11 +26,13 @@ public class ShopData
         SkillTimePrice = skillTimePrice;
         BigSkillTimePrice = bigSkillTimePrice;
     }
-    public void SetRoleShopState(int roleMalePrice,int roleCopPrice,int roleRobotPrice)
-    {
-        RoleMalePrice = roleMalePrice;
-        RoleCopPrice = roleCopPrice;
-        RoleRobotPrice = roleRobotPrice;
-    }
+
+    //在价格变化的属性商店使用
+    //public void SetRoleShopState(int roleMalePrice,int roleCopPrice,int roleRobotPrice)
+    //{
+    //    RoleMalePrice = roleMalePrice;
+    //    RoleCopPrice = roleCopPrice;
+    //    RoleRobotPrice = roleRobotPrice;
+    //}
 }
 

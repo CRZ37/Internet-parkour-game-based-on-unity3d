@@ -55,7 +55,7 @@ namespace GameServer.DAO
                 }
                 else
                 {
-                    cmd = new MySqlCommand("update shopstate set healthtime=@healthtime,bighealthtime=@bighealthtime,skilltimetime=@skilltimetime,bigskilltimetime=@bigskilltimetime,userid=@userid", conn);
+                    cmd = new MySqlCommand("update shopstate set healthtime=@healthtime,bighealthtime=@bighealthtime,skilltimetime=@skilltimetime,bigskilltimetime=@bigskilltimetime where userid=@userid", conn);
                 }
                 cmd.Parameters.AddWithValue("healthtime", shopState.HealthTime);
                 cmd.Parameters.AddWithValue("bighealthtime", shopState.BigHealthTime);

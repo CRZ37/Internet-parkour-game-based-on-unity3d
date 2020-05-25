@@ -11,7 +11,8 @@ namespace GameServer.DAO
             MySqlDataReader reader = null;
             try
             {
-                MySqlCommand cmd = new MySqlCommand("select * from user where username = @username and password = @password", conn);
+                MySqlCommand cmd = new MySqlCommand("select * from user " +
+                    "where username = @username and password = @password", conn);
                 cmd.Parameters.AddWithValue("username", username);
                 cmd.Parameters.AddWithValue("password", password);
                 reader = cmd.ExecuteReader();

@@ -103,11 +103,12 @@ public class BasePanel : MonoBehaviour
         });
     }
     //暂停以及恢复panel不闪烁
-    protected void PausePanelPUNISHING(RectTransform panelBG, RectTransform content, UIPanelType type,Action<BasePanel> SetParams = null)
+    protected void PausePanelPUNISHING(RectTransform panelBG, RectTransform content, UIPanelType type, Action<BasePanel> SetParams = null)
     {
         PausePanelPUNISHING(panelBG, content, type, 120, 1200, SetParams);
     }
-    protected void PausePanelPUNISHING(RectTransform panelBG, RectTransform content, UIPanelType type, int minY, int width,Action<BasePanel> SetParams = null)
+    protected void PausePanelPUNISHING(RectTransform panelBG, RectTransform content, UIPanelType type,
+        int minY, int width, Action<BasePanel> SetParams = null)
     {
         //内容重置回透明
         content.gameObject.SetActive(false);

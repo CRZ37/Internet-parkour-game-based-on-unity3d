@@ -47,15 +47,21 @@ public class RoomListPanel : BasePanel
 
     private void OnRoleShopClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         PausePanelPUNISHING(panelBG, content, UIPanelType.RoleShop, 120, 1500);
     }
 
     private void OnShopClick()
     {
-        PausePanelPUNISHING(panelBG, content, UIPanelType.Shop,120,1700);
+        Game.Instance.sound.PlayEffect("Click");
+        PausePanelPUNISHING(panelBG, content, UIPanelType.Shop, 120, 1700);
     }
     private void OnCloseClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
+        //允许商店重新请求数据
+        GameData gameData = Game.Instance.GetGameData();
+        gameData.IsLoadProperty = false;
         logoutRequest.SendRequest();
     }
     private void SetRequestParam(BasePanel panel)
@@ -65,10 +71,12 @@ public class RoomListPanel : BasePanel
     }
     private void OnCreateRoomClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         PausePanelPUNISHING(panelBG, content, UIPanelType.Room, SetRequestParam);
     }
     private void OnRefreshClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         listRoomRequest.SendRequest();
     }
     public override void OnResume()
@@ -160,13 +168,16 @@ public class RoomListPanel : BasePanel
             roomItem.GetComponent<RectTransform>().localScale = normalSize;
             Debug.Log("创建房间");
             //设置房间信息
-            roomItem.GetComponent<RoomItem>().SetRoomInfo(userList[i].Id, userList[i].Username, userList[i].TotalCount, userList[i].WinCount, this);
+            roomItem.GetComponent<RoomItem>()
+                .SetRoomInfo(userList[i].Id, userList[i].Username,
+                userList[i].TotalCount, userList[i].WinCount, this);
         }
         //设置layout高度
         int roomCount = GetComponentsInChildren<RoomItem>().Length;
         Vector2 size = roomLayout.GetComponent<RectTransform>().sizeDelta;
         roomLayout.GetComponent<RectTransform>().sizeDelta = new Vector2(size.x,
-            roomCount * (roomItemPrefab.GetComponent<RectTransform>().sizeDelta.y + roomLayout.spacing));
+            roomCount * (roomItemPrefab.GetComponent<RectTransform>()
+            .sizeDelta.y + roomLayout.spacing) + roomLayout.padding.top);
     }
     //回调，其使用委托也行
     public void OnJoinClick(int id)

@@ -145,14 +145,31 @@ public class PlayerManager : BaseManager
         clientCoinText = clientPlayerState.transform.Find("Coin").GetComponent<Text>();
         clientItemText = clientPlayerState.transform.Find("State").GetComponent<Text>();
     }
-
+    /// <summary>
+    /// 初始化玩家信息
+    /// </summary>
     private void InitRoleDataDict()
     {
         //获取另一个客户端的角色选择
         string hostRoleSelect = rolePropertyDict[hostUser.RoleSelectState].rolePath;
         string clientRoleSelect = rolePropertyDict[clientUser.RoleSelectState].rolePath;
-        roleDataDict.Add(Role_ResultRoleType.Host, new RoleData(Role_ResultRoleType.Host, hostRoleSelect, hostPos, hostUser.Health, hostUser.SkillTime,rolePropertyDict[hostUser.RoleSelectState].roleMultiplyCoinTime, rolePropertyDict[hostUser.RoleSelectState].roleInvincibleTime));
-        roleDataDict.Add(Role_ResultRoleType.Client, new RoleData(Role_ResultRoleType.Client, clientRoleSelect, clientPos, clientUser.Health, clientUser.SkillTime, rolePropertyDict[hostUser.RoleSelectState].roleMultiplyCoinTime, rolePropertyDict[hostUser.RoleSelectState].roleInvincibleTime));
+        roleDataDict.Add(Role_ResultRoleType.Host,
+            new RoleData(Role_ResultRoleType.Host,
+                         hostRoleSelect,
+                         hostPos,
+                         hostUser.Health,
+                         hostUser.SkillTime,
+                         rolePropertyDict[hostUser.RoleSelectState].roleMultiplyCoinTime,
+                         rolePropertyDict[hostUser.RoleSelectState].roleInvincibleTime));
+
+        roleDataDict.Add(Role_ResultRoleType.Client, 
+            new RoleData(Role_ResultRoleType.Client,
+                         clientRoleSelect,
+                         clientPos,
+                         clientUser.Health,
+                         clientUser.SkillTime,
+                         rolePropertyDict[clientUser.RoleSelectState].roleMultiplyCoinTime,
+                         rolePropertyDict[clientUser.RoleSelectState].roleInvincibleTime));
     }
     //设置玩家的姓名
     public void SetPlayersData(UserData hostUser, UserData clientUser)
@@ -193,24 +210,39 @@ public class PlayerManager : BaseManager
                 //添加本地玩家控制脚本
                 localPlayerMove = LocalRoleGameObject.AddComponent<LocalPlayerMove>();
                 localMoveRequest.SetLocalPlayerMove(localPlayerMove);
-                localPlayerMove.SetGameDataAndRoleDataAndRequests(
-                    GameData,
-                    roleData,
-                    localMoveRequest,
-                    takeDamageRequest,
-                    getCoinRequest,
-                    gameOverRequest,
-                    useItemRequest);
+                localPlayerMove.SetGameDataAndRoleDataAndRequests(GameData,
+                                                                  roleData,
+                                                                  localMoveRequest,
+                                                                  takeDamageRequest,
+                                                                  getCoinRequest,
+                                                                  gameOverRequest,
+                                                                  useItemRequest);
                 CreateRoadRequest createRoadRequest = LocalRoleGameObject.AddComponent<CreateRoadRequest>();
                 roadChange.SetCreateRoadRequest(createRoadRequest, index1, index2);
                 //设置UI信息
                 switch (roleData.Type)
                 {
                     case Role_ResultRoleType.Host:
-                        localPlayerMove.SetLocalPlayerState(hostName.text, clientName.text, hostHealthTran, hostCoinText, hostItemText,gamePanel.MultiplyNum,gamePanel.InvincibleNum,gamePanel.MultiplyAnim,gamePanel.InvincibleAnim);
+                        localPlayerMove.SetLocalPlayerState(hostName.text,
+                                                            clientName.text,
+                                                            hostHealthTran,
+                                                            hostCoinText,
+                                                            hostItemText,
+                                                            gamePanel.MultiplyNum,
+                                                            gamePanel.InvincibleNum,
+                                                            gamePanel.MultiplyAnim,
+                                                            gamePanel.InvincibleAnim);
                         break;
                     case Role_ResultRoleType.Client:
-                        localPlayerMove.SetLocalPlayerState(clientName.text, hostName.text, clientHealthTran, clientCoinText, clientItemText, gamePanel.MultiplyNum, gamePanel.InvincibleNum, gamePanel.MultiplyAnim, gamePanel.InvincibleAnim);
+                        localPlayerMove.SetLocalPlayerState(clientName.text,
+                                                            hostName.text,
+                                                            clientHealthTran,
+                                                            clientCoinText,
+                                                            clientItemText,
+                                                            gamePanel.MultiplyNum,
+                                                            gamePanel.InvincibleNum,
+                                                            gamePanel.MultiplyAnim,
+                                                            gamePanel.InvincibleAnim);
                         break;
                 }
             }

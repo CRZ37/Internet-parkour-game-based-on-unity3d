@@ -1,0 +1,608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DG.Tweening.DOTweenAnimation" Collapsed="true">
+    <Position X="68.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAADUDIkAKCBCAlhISCAAHkgEQkABggCDAADCoiAgnQ=</HashCode>
+      <FileName>Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DG.Tweening.DOTweenAnimationExtensions" Collapsed="true">
+    <Position X="70.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextSpacing" Collapsed="true">
+    <Position X="61.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Res\UI\TextSpacing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Consts" Collapsed="true">
+    <Position X="65.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Consts.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameData" Collapsed="true">
+    <Position X="61.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAABAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Data\GameData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoleData" Collapsed="true">
+    <Position X="65.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAIABAAAAAAAAAIAAEAAAAAAASAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Data\RoleData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneArgs" Collapsed="true">
+    <Position X="70.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Data\SceneArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShopData" Collapsed="true">
+    <Position X="61.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAkhAAAAAABAAQAAgAAAgAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Data\ShopData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UserData" Collapsed="true">
+    <Position X="65.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAABCAAAQAgAIBAAEAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Data\UserData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BGAnim" Collapsed="true">
+    <Position X="61.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAAABAAAAgAACAAAAIAAAEIABgAACAAAAAAgEE=</HashCode>
+      <FileName>Assets\Scripts\Application\Game\BGAnim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CamFollowPlayer" Collapsed="true">
+    <Position X="63.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAAAACAAAAAAEAAAAAAAQAAAAQgBAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Game\CamFollowPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LocalPlayerMove" Collapsed="true">
+    <Position X="63.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SFQEFB0qMiCKUC4aFaApRQARAiCAARoAQYcBC4hjCmo=</HashCode>
+      <FileName>Assets\Scripts\Application\Game\LocalPlayerMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemotePlayerMove" Collapsed="true">
+    <Position X="61.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CFwUHA04IiAiIC8YFaAJVRAVAiAAARgAQQUAihghAmo=</HashCode>
+      <FileName>Assets\Scripts\Application\Game\RemotePlayerMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoadChange" Collapsed="true">
+    <Position X="63.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAAACACAABAAAAgAAAAgABABAAIRAAABAABACA=</HashCode>
+      <FileName>Assets\Scripts\Application\Game\RoadChange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game" Collapsed="true">
+    <Position X="12.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQBkRAAZAgAUAAAIgRAAgSCIIAEEAABEAAAcAAgKUg=</HashCode>
+      <FileName>Assets\Scripts\Application\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseManager" Collapsed="true">
+    <Position X="3.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Manager\BaseManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerManager" Collapsed="true">
+    <Position X="2.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQFCMAAEABCQCEAAAAEIEYJAkFBCAQgoABAQBAZCAk=</HashCode>
+      <FileName>Assets\Scripts\Application\Manager\PlayerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RequestManager" Collapsed="true">
+    <Position X="5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Manager\RequestManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIManager" Collapsed="true">
+    <Position X="7.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIQgAABABEAAAASAAEAAgQAAQAAQAAoAAAAAAARA=</HashCode>
+      <FileName>Assets\Scripts\Application\Manager\UIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Effect" Collapsed="true">
+    <Position X="1" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAARAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Effect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coin" Collapsed="true">
+    <Position X="3.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAABAAAAAAAAAAAASAAABAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Item\Coin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Heal" Collapsed="true">
+    <Position X="5.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAASAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Item\Heal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Invincible" Collapsed="true">
+    <Position X="7.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAASAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Item\Invincible.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Item" Collapsed="true">
+    <Position X="6.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAABAAAAAAAAAQAACAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Item\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multiply" Collapsed="true">
+    <Position X="10" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAASAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Item\Multiply.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Car" Collapsed="true">
+    <Position X="12.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAgAAAAAACBAAABAAAAAQAACAAABAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Obstacles\Car.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Obstacles" Collapsed="true">
+    <Position X="13.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAABAAAAAAAAAAAACAAABAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Obstacles\Obstacles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="People" Collapsed="true">
+    <Position X="14.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAACFAAAAAAAAAAAACAAABAEgAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Obstacles\People.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Road" Collapsed="true">
+    <Position X="16.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Objects\Road.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseRequest" Collapsed="true">
+    <Position X="31" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAIAACAgAACAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\BaseRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuyItemRequest" Collapsed="true">
+    <Position X="7.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAIAAAAAAABAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\BuyItemRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuyRoleItemRequest" Collapsed="true">
+    <Position X="14.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABCAIAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\BuyRoleItemRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CreateRoadRequest" Collapsed="true">
+    <Position X="21" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAACAAAAAAAAEAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\CreateRoadRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CreateRoomRequest" Collapsed="true">
+    <Position X="27.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\CreateRoomRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOverRequest" Collapsed="true">
+    <Position X="34.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEgAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\GameOverRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GetCoinRequest" Collapsed="true">
+    <Position X="41.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAEAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAACEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\GetCoinRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JoinRoomRequest" Collapsed="true">
+    <Position X="48" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAACAAAAAAAEAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\JoinRoomRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListRoomRequest" Collapsed="true">
+    <Position X="52.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAACAAAAAAAEAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\ListRoomRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LocalMoveRequest" Collapsed="true">
+    <Position X="57" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAgAAAAAAAIAACAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\LocalMoveRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LoginRequest" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\LoginRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogoutRequest" Collapsed="true">
+    <Position X="9.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAACAAAAAAAEAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\LogoutRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuitBattleRequest" Collapsed="true">
+    <Position X="16.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAIAACAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\QuitBattleRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuitRoomRequest" Collapsed="true">
+    <Position X="23.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\QuitRoomRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RegisterRequest" Collapsed="true">
+    <Position X="30" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAACABAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\RegisterRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteMoveRequest" Collapsed="true">
+    <Position X="36.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAAACEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\RemoteMoveRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SelectRoleItemRequest" Collapsed="true">
+    <Position X="43.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAACAIAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\SelectRoleItemRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShowTimerRequest" Collapsed="true">
+    <Position X="50.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\ShowTimerRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StartGameRequest" Collapsed="true">
+    <Position X="54.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\StartGameRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StartPlayRequest" Collapsed="true">
+    <Position X="59.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\StartPlayRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TakeDamageRequest" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAABAAACEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\TakeDamageRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UpdateCoinRequest" Collapsed="true">
+    <Position X="12" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAIAACAAASAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\UpdateCoinRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UpdateResultRequest" Collapsed="true">
+    <Position X="18.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAEAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\UpdateResultRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UpdateRoleShopRequest" Collapsed="true">
+    <Position X="25.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAADAIAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\UpdateRoleShopRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UpdateRoomRequest" Collapsed="true">
+    <Position X="32.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\UpdateRoomRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UpdateShopRequest" Collapsed="true">
+    <Position X="39" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAABAAAAAAAACAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\UpdateShopRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UseItemRequest" Collapsed="true">
+    <Position X="45.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAIAAAAAACEA=</HashCode>
+      <FileName>Assets\Scripts\Application\Request\UseItemRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tag" Collapsed="true">
+    <Position X="68.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAAIAAAABAIAAAQAAAAAAgAAAAEAAABQBAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Tag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasePanel" Collapsed="true">
+    <Position X="10" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAABCAgAAQAAAAAAQAAQAABAIIAAABAAIBA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\BasePanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GamePanel" Collapsed="true">
+    <Position X="16.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIYBAAAgASAAgAAQJQCAAACAIBACgGAAAIEQAEEBAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\GamePanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LoginPanel" Collapsed="true">
+    <Position X="1" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwChgAAACBAAAgAAAAAQAAAAAAQAAAABIAAACAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\LoginPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MessagePanel" Collapsed="true">
+    <Position X="5.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAgAAAAAAAgAEAAAAAAAAAAAAAAIAIAAABABADA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\MessagePanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RegisterPanel" Collapsed="true">
+    <Position X="7.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAChAAAAAABBAAAAAAAAAAAAAAAAAAABIAAACAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\RegisterPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoleShopItem" Collapsed="true">
+    <Position X="67" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAYQAACAAAAhJCAAKAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\RoleShopItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoleShopPanel" Collapsed="true">
+    <Position X="10" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQagAIxAAAAAAAAgAAAIAQACAQAAAAgDKIAAABAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\RoleShopPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoomItem" Collapsed="true">
+    <Position X="68.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAEQAAAEAACAAAAEAEAAAAAAAAkA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\RoomItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoomListPanel" Collapsed="true">
+    <Position X="12.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQChJAAQAAGEkgAAE0ABSCBAgaQIAEEBIAkAAAAgEA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\RoomListPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoomPanel" Collapsed="true">
+    <Position X="14.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAQQIAQAgQEAACAABBAgEgACQiAIgAABoQAEI=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\RoomPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShopItem" Collapsed="true">
+    <Position X="63.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIAAACAAAAEAAAAKAAAAAAhAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\ShopItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShopPanel" Collapsed="true">
+    <Position X="19" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YEQGgAIAAAAgEEIAQFAgAgAAQAAAAAAABIAAAiAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\ShopPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StartPanel" Collapsed="true">
+    <Position X="3.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAgAIAAAAAAAAAAEAAAAAIAgABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\UIPannel\StartPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MonoSingleton&lt;T&gt;" Collapsed="true">
+    <Position X="11.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\framework\MonoSingleton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectPool" Collapsed="true">
+    <Position X="67" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAIAEAAQAAAAAAAEAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\framework\Pool\ObjectPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ReusableObject" Collapsed="true">
+    <Position X="8.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\framework\Pool\ReusableObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SubPool" Collapsed="true">
+    <Position X="67" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAIABAAAEAAAYAAAAAAAAAAAAAQAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\framework\Pool\SubPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sound" Collapsed="true">
+    <Position X="65.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgACAAAAAAAAAIAIAAAAQAAADAQAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\framework\Sound\Sound.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryExtension" Collapsed="true">
+    <Position X="67" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\framework\UIFramework\Extension\DictionaryExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIPanelInfo" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="63.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAEAAAAAAAAACAAAAAABAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\framework\UIFramework\UIPanel\UIPanelInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PatternManager" Collapsed="true">
+    <Position X="10.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Misc\PatternManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PatternItem" Collapsed="true">
+    <Position X="70.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Misc\PatternManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pattern" Collapsed="true">
+    <Position X="68.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Misc\PatternManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClientManager" Collapsed="true">
+    <Position X="0.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAJAAAAACAAAAAAAACAABCAIAAAAAQAAAQAAAAgAAA=</HashCode>
+      <FileName>Assets\Scripts\Net\ClientManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Message" Collapsed="true">
+    <Position X="65.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAABAACAAABAgAQAQAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Net\Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Test" Collapsed="true">
+    <Position X="70.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Test.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="RoleProperty" Collapsed="true">
+    <Position X="61.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAACAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Application\Manager\PlayerManager.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Ireusable" Collapsed="true">
+    <Position X="61.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\framework\Pool\Ireusable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="UIPanelType" Collapsed="true">
+    <Position X="61.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEACAAAAAAABAAIAAAAAiBAAAAAAAQIAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\framework\UIFramework\UIPanel\UIPanelType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

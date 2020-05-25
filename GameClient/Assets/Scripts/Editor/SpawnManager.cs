@@ -15,7 +15,6 @@ public class SpawnManager : EditorWindow
             var patternManager = spawnManager.GetComponent<PatternManager>();
             if (Selection.gameObjects.Length == 1)
             {
-
                 //获取当前点击到的游戏物体
                 var item = Selection.gameObjects[0].transform;
                 if (item != null)
@@ -28,7 +27,8 @@ public class SpawnManager : EditorWindow
                         if (childTrans != null)
                         {
                             //通过场景中的gameobject找到对应的prefab
-                            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(childTrans.gameObject);
+                            var prefab = PrefabUtility
+                                .GetCorrespondingObjectFromSource(childTrans.gameObject);
                             if (prefab != null)
                             {
                                 //创建新的item

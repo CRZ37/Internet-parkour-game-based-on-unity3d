@@ -20,7 +20,7 @@ namespace GameServer.Servers
 
         public MySqlConnection MysqlConn { get => mysqlConn; set => MysqlConn = value; }
         public Room Room { get; set; }
-        public int LocationIndex { get; set; } = -1;
+        public int LocationIndex { get; set; }
         public ResultDAO ResultDAO { get; set; }
         public CoinDAO CoinDAO { get; set; }
         public PlayerStateDAO PlayerStateDAO { get; set; }
@@ -158,5 +158,6 @@ namespace GameServer.Servers
             CoinDAO.UpdateOrAddCoin(mysqlConn, Coin);
             Send(ActionCode.UpdateCoin, string.Format("{0}", Coin.CoinNum));
         }
+        //TODO:2.也可以增加血量属性以及血量更新的方法，如果此Client血量归零，就通知Room开始结算成绩，也就是客户端的GameOverRequest由服务器来控制
     }
 }

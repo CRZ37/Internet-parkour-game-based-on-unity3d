@@ -48,7 +48,7 @@ public class UIManager :BaseManager{
     }
 
     /// <summary>
-    /// 把某个页面入栈，  把某个页面显示在界面上
+    /// 把某个页面入栈，把某个页面显示在界面上
     /// </summary>
     public BasePanel PushPanel(UIPanelType panelType)
     {
@@ -68,7 +68,7 @@ public class UIManager :BaseManager{
         return panel;
     }
     /// <summary>
-    /// 出栈 ，把页面从界面上移除
+    /// 出栈，把页面从界面上移除
     /// </summary>
     public void PopPanel()
     {
@@ -89,7 +89,7 @@ public class UIManager :BaseManager{
     /// <summary>
     /// 根据面板类型 得到实例化的面板
     /// </summary>
-    /// <returns></returns>
+    /// <returns>BasePanel</returns>
     private BasePanel GetPanel(UIPanelType panelType)
     {
         if (panelDict == null)
@@ -101,7 +101,6 @@ public class UIManager :BaseManager{
 
         if (panel == null)
         {
-            //如果找不到，那么就找这个面板的prefab的路径，然后去根据prefab去实例化面板
             string path = panelPathDict.TryGet(panelType);
             GameObject instPanel = GameObject.Instantiate(Resources.Load(path)) as GameObject;
             instPanel.transform.SetParent(CanvasTransform,false);
@@ -114,7 +113,6 @@ public class UIManager :BaseManager{
         {
             return panel;
         }
-
     }
 
     [Serializable]
@@ -122,6 +120,9 @@ public class UIManager :BaseManager{
     {
         public List<UIPanelInfo> infoList;
     }
+    /// <summary>
+    /// Json反序列化
+    /// </summary>
     private void ParseUIPanelTypeJson()
     {
         panelPathDict = new Dictionary<UIPanelType, string>();
@@ -132,7 +133,6 @@ public class UIManager :BaseManager{
 
         foreach (UIPanelInfo info in jsonObject.infoList) 
         {
-            //Debug.Log(info.panelType);
             panelPathDict.Add(info.panelType, info.path);
         }
     }

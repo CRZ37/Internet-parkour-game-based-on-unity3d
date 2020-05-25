@@ -35,6 +35,7 @@ public class RoleShopPanel : BasePanel
 
     private void OnCloseClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         ClosePanelPUNISHING(panelBG, content, 120, 1500);
     }
     public override void OnEnter()
@@ -50,12 +51,14 @@ public class RoleShopPanel : BasePanel
         OpenPanelPUNISHING(panelBG, content, 800, 120, 1500);
     }
     public void OnBuyClick(string buyInfo)
-    {       
+    {
+        Game.Instance.sound.PlayEffect("Click");
         buyRoleItemRequest.SendBuyRequest(buyInfo);
     }
 
     public void OnselectClick(string selectInfo)
     {
+        Game.Instance.sound.PlayEffect("Click");
         selectRoleItemRequest.SendSelectRequest(selectInfo);
     }
 
@@ -100,7 +103,9 @@ public class RoleShopPanel : BasePanel
     {
         this.roleShopData = roleShopData;
     }
-    
+    /// <summary>
+    /// 更新角色商店
+    /// </summary>
     private void UpdateRoleShopState()
     {
         string[] updateDatas1 = roleShopData.Split('|');
@@ -116,12 +121,15 @@ public class RoleShopPanel : BasePanel
             string roleCopPrice = updateDatas1[3];
             string roleRobotPrice = updateDatas1[4];
             string roleSelectState = updateDatas1[5];
+            //设置价格
             SetRoleItemPrice("1", roleMalePrice);
             SetRoleItemPrice("2", roleCopPrice);
             SetRoleItemPrice("3", roleRobotPrice);
+            //设置是否购买
             SetRoleItemState("1", roleMaleBuyState);
             SetRoleItemState("2", roleCopBuyState);
             SetRoleItemState("3", roleRobotBuyState);
+            //设置当前选择
             SetRoleItemSelectState(roleSelectState);
         }
         else

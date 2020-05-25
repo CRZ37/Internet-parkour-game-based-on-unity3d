@@ -20,7 +20,7 @@ public class Message
         get => data.Length - endIndex;
     }
     /// <summary>
-    /// 解析数据,处理粘包以及分包问题
+    /// 解析数据,处理粘包问题
     /// </summary>
     public void ReadMessage(int newDataAmout, Action<ActionCode, string> processDataCallBack)
     {
@@ -29,14 +29,13 @@ public class Message
         //数据是完整的，默认当作粘包处理
         while (true)
         {
-            //数据不完整，说明分包了，不解析（异步接收的时候没有发现这个现象，感觉其实不会有这个问题）
-            //或解析完成
+            //数据不完整，不解析
             if (endIndex <= 4) return;
-            //读取数据长度,从0向后四个字节是存储数据长度的
+            //读取数据长度,从0向后四个字节存储数据长度。
             int count = BitConverter.ToInt32(data, 0);
             if (endIndex - 4 >= count)
             {
-                //从8的位置解析actionCode
+                //从4的位置解析actionCode
                 ActionCode actionCode = (ActionCode)BitConverter.ToInt32(data, 4);
                 string s = Encoding.UTF8.GetString(data, 8, count - 4);
                 processDataCallBack(actionCode, s);
@@ -51,10 +50,12 @@ public class Message
             }
         }
     }
-
+    /// <summary>
+    /// 客户端打包数据
+    /// </summary>
     public static byte[] PackData(RequestCode requestData,ActionCode actionCode,string data)
     {
-        //controller、方法、数据
+        //格式：数据长度 + RequestCode + ActionCode + 内容
         byte[] requestCodeBytes = BitConverter.GetBytes((int)requestData);
         byte[] actionCodeBytes = BitConverter.GetBytes((int)actionCode);
         byte[] dataBytes = Encoding.UTF8.GetBytes(data);

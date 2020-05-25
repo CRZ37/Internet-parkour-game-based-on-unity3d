@@ -103,10 +103,12 @@ public class RoomPanel : BasePanel
     }
     private void OnStartClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         startGameRequest.SendRequest();
     }
     private void OnExitClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         quitRoomRequest.SendRequest();
     }
     public void OnExitResponse()

@@ -12,10 +12,9 @@ public class Sound : MonoBehaviour
         bg = gameObject.AddComponent<AudioSource>();
         bg.playOnAwake = false;
         bg.loop = true;
-        bg.volume = 0.5f;
-        //音效音量比bgm小
+        bg.volume = 0.04f;
         effect = gameObject.AddComponent<AudioSource>();
-        effect.volume = 0.4f;
+        effect.volume = 0.8f;
     }
     /// <summary>
     /// 设置AudioSource的音量大小

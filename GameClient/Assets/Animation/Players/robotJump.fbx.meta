@@ -14,16 +14,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: A13
-    second: {fileID: 2100000, guid: 06d40dc2e1401784eb420a0d2d5d7235, type: 2}
+    second: {fileID: 3154963023170539553, guid: 2b7d551200e0f0045b94822205a64674,
+      type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: PolygonSciFiCity_Texture_01_A
     second: {fileID: 2800000, guid: 99e4da9b0793e574dbfe95f6deecb6ba, type: 3}
   materials:
-    importMaterials: 0
-    materialName: 1
-    materialSearch: 0
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 1
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4

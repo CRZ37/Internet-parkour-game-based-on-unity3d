@@ -1,4 +1,5 @@
 ﻿using Common;
+using UnityEngine;
 
 public class LoginRequest : BaseRequest
 {
@@ -22,8 +23,9 @@ public class LoginRequest : BaseRequest
         string[] strs = data.Split(',');
         ReturnCode returnCode = (ReturnCode)int.Parse(strs[0]);
         loginPannel.OnLoginResponseSync(returnCode);
+        Debug.Log(returnCode);
         //把数据保存到playerManager里面
-        if(returnCode == ReturnCode.Success)
+        if (returnCode == ReturnCode.Success)
         {
             int id = int.Parse(strs[1]);
             string username = strs[2];
@@ -31,7 +33,7 @@ public class LoginRequest : BaseRequest
             int winCount = int.Parse(strs[4]);
             int coinNum = int.Parse(strs[5]);
             int health = int.Parse(strs[6]);
-            int skillTime = int.Parse(strs[7]);
+            float skillTime = float.Parse(strs[7]);
             UserData userData = new UserData(id,username, totalCount, winCount,coinNum,health,skillTime);
             Game.Instance.SetUserData(userData);
         }

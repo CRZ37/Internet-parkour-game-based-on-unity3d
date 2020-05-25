@@ -91,6 +91,7 @@ public class LoginPanel : BasePanel
     }
     private void OnCloseClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         ClosePanelPUNISHING(panelBG, content);
     }
     public override void OnResume()

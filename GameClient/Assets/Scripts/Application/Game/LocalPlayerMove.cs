@@ -59,6 +59,10 @@ public class LocalPlayerMove : MonoBehaviour
     private Animator anim;
     //现在是否正在被撞击
     private bool isHit = false;
+    //检测是否在使用双倍金币道具
+    private bool isMultiply = false;
+    //检测是否在使用无敌道具
+    private bool isInvincible = false;
 
     //item相关
     private int multiTime = 1;
@@ -67,7 +71,7 @@ public class LocalPlayerMove : MonoBehaviour
     private int multiplyCoinTime;
     private int invincibleTime;
     private int maxHealth;
-    private bool isInvincible = false;
+
     //双倍金币协程
     private IEnumerator MultiplyCor;
     //无敌协程
@@ -204,26 +208,32 @@ public class LocalPlayerMove : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z) && multiplyCoinTime > 0)
         {
-            Debug.Log("双倍金币！！！");
-            //如果在双倍金币时间结束前又用到一个，就刷新技能时间，就是先停下现在的再开一个新的
-            if (MultiplyCor != null)
+            if (!isMultiply)
             {
-                StopCoroutine(MultiplyCor);
-            }
-            MultiplyCor = MultiplyCoroutine();
-            StartCoroutine(MultiplyCor);
+                Debug.Log("双倍金币！！！");
+                //如果在双倍金币时间结束前又用到一个，就刷新技能时间，就是先停下现在的再开一个新的
+                //if (MultiplyCor != null)
+                //{
+                //    StopCoroutine(MultiplyCor);
+                //}
+                MultiplyCor = MultiplyCoroutine();
+                StartCoroutine(MultiplyCor);
+            }     
         }
         if (Input.GetKeyDown(KeyCode.X) && invincibleTime > 0)
         {
-            Debug.Log("无敌状态！！！！！！");
-            //如果在无敌时间结束前又用到一个，就刷新技能时间，就是先停下现在的再开一个新的
-            if (InvincibleCor != null)
+            if (!isInvincible)
             {
-                Debug.Log("无敌状态刷新！！！！！！");
-                StopCoroutine(InvincibleCor);
-            }
-            InvincibleCor = InvincibleCoroutine();
-            StartCoroutine(InvincibleCor);
+                Debug.Log("无敌状态！！！！！！");
+                //如果在无敌时间结束前又用到一个，就刷新技能时间，就是先停下现在的再开一个新的
+                //if (InvincibleCor != null)
+                //{
+                //    Debug.Log("无敌状态刷新！！！！！！");
+                //    StopCoroutine(InvincibleCor);
+                //}
+                InvincibleCor = InvincibleCoroutine();
+                StartCoroutine(InvincibleCor);
+            }        
         }
     }
     //获取玩家输入的方向
@@ -371,7 +381,7 @@ public class LocalPlayerMove : MonoBehaviour
     //碰撞CD
     public void HitObstacles(int damage)
     {
-        //如果是已经在减速状态或者正在无敌状态就不再cd
+        //如果是已经撞了或者正在无敌状态就不再cd
         if (isHit || isInvincible)
         {
             return;
@@ -421,20 +431,24 @@ public class LocalPlayerMove : MonoBehaviour
         multiplyNum.text = multiplyCoinTime.ToString();
         multiplyAnim.SetTrigger("UsingItem");
 
-        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Multiply", effectParent);
-        //effectGO.transform.position = mPos.position;
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Multiply", mPos);
+        Game.Instance.sound.PlayEffect("Multiply");
         effectGO.transform.parent = mPos;
         effectGO.transform.localPosition = Vector3.zero;
 
         useItemRequest.SendUseItemRequest(ItemType.MultiplyCoin);
         multiTip = "双倍金币";
         multiTime = 2;
+        isMultiply = true;
 
         yield return new WaitForSeconds(skillTime);
 
+        //回收前将父物体换回EffectParent      
+        effectGO.transform.parent = effectParent;
         Game.Instance.objectPool.Unspwan(effectGO);
         multiTip = "";
         multiTime = 1;
+        isMultiply = false;
     }
 
     //无敌状态
@@ -450,8 +464,8 @@ public class LocalPlayerMove : MonoBehaviour
         invincibleNum.text = invincibleTime.ToString();
         invincibleAnim.SetTrigger("UsingItem");
 
-        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Invincible",effectParent);
-        //effectGO.transform.position = iPos.position;
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Invincible",iPos);
+        Game.Instance.sound.PlayEffect("Invincible");
         effectGO.transform.parent = iPos;
         effectGO.transform.localPosition = Vector3.zero;
 
@@ -461,6 +475,8 @@ public class LocalPlayerMove : MonoBehaviour
 
         yield return new WaitForSeconds(skillTime);
 
+        //回收前将父物体换回EffectParent
+        effectGO.transform.parent = effectParent;
         Game.Instance.objectPool.Unspwan(effectGO);
         invincibleTip = "";
         isInvincible = false;

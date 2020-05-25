@@ -23,6 +23,7 @@ public class ShopItem : MonoBehaviour
 
     public void OnBuyClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         //如果玩家持有金币大于物品金额，则购买成功
         if (Game.Instance.GetUserData().CoinNum >= price)
         {

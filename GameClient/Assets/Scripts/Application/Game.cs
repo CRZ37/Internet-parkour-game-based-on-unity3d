@@ -27,11 +27,6 @@ public class Game : MonoSingleton<Game>
         sound = GetComponent<Sound>();       
         InitManagers();        
     }
-    private void Update()
-    {
-        UpdateManager();
-    }
-
     public void InitManagers()
     {
         UIMng = new UIManager();
@@ -44,6 +39,13 @@ public class Game : MonoSingleton<Game>
         requestMng.OnInit();
         clientMng.OnInit();
     }
+    /// <summary>
+    /// 统一管理脚本的Update
+    /// </summary>
+    private void Update()
+    {
+        UpdateManager();
+    }  
     private void UpdateManager()
     {
         UIMng.Update();
@@ -98,7 +100,13 @@ public class Game : MonoSingleton<Game>
     }
     public ShopData GetShopData()
     {
+        Debug.Log(playerMng.ShopData);
         return playerMng.ShopData;
+    }
+
+    public void SetShopData(ShopData shopData)
+    {
+        playerMng.ShopData = shopData;
     }
     public void SetLocalRoleType(Role_ResultRoleType type)
     {

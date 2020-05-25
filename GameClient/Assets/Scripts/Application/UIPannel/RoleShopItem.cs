@@ -30,6 +30,7 @@ public class RoleShopItem : MonoBehaviour
     }
     public void OnBuyClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         if (Game.Instance.GetUserData().CoinNum >= price)
         {
             Debug.Log("已购买" + itemId + "号物品");
@@ -58,6 +59,7 @@ public class RoleShopItem : MonoBehaviour
 
     public void SetPrice(string price)
     {
+        Debug.Log(priceText);
         priceText.text = price;
         this.price = int.Parse(price);
     }

@@ -161,7 +161,7 @@ public class RemotePlayerMove : MonoBehaviour
                 MoveControl();
                 UpdatePosition();
                 UpdateSpeed();
-                //这里加一个X限定，确保如果移动操作过快，在还没有移动到目标位置的时候，主角不会移出跑道
+                //这里加一个X限定，确保如果移动操作过快，在还没有移动到目标位置的时候，主角不会移出跑道，其实服务器判断后本地就不用判断了
                 if (transform.position.x >= Consts.right3)
                 {
                     transform.position = new Vector3(Consts.right3, transform.position.y, transform.position.z);
@@ -195,10 +195,10 @@ public class RemotePlayerMove : MonoBehaviour
         {
             Debug.Log("另一方双倍金币");
             //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
-            if (MultiplyCor != null)
-            {
-                StopCoroutine(MultiplyCor);
-            }
+            //if (MultiplyCor != null)
+            //{
+            //    StopCoroutine(MultiplyCor);
+            //}
             MultiplyCor = MultiplyCoroutine();
             StartCoroutine(MultiplyCor);
         }
@@ -206,10 +206,10 @@ public class RemotePlayerMove : MonoBehaviour
         {
             Debug.Log("另一方无敌状态");
             //如果在双倍金币时间结束前又吃到一个，就刷新技能时间，就是先停下现在的再开一个新的
-            if (InvincibleCor != null)
-            {
-                StopCoroutine(InvincibleCor);
-            }
+            //if (InvincibleCor != null)
+            //{
+            //    StopCoroutine(InvincibleCor);
+            //}
             InvincibleCor = InvincibleCoroutine();
             StartCoroutine(InvincibleCor);
         }
@@ -351,7 +351,7 @@ public class RemotePlayerMove : MonoBehaviour
 
         multiTip = "双倍金币";
 
-        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Invincible", effectParent);
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Multiply", effectParent);
         //effectGO.transform.position = mPos.position;
         effectGO.transform.parent = mPos;
         effectGO.transform.localPosition = Vector3.zero;
@@ -379,7 +379,7 @@ public class RemotePlayerMove : MonoBehaviour
 
         invincibleTip = "无敌";
 
-        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Multiply", effectParent);
+        GameObject effectGO = Game.Instance.objectPool.Spawn("FX_Invincible", effectParent);
         //effectGO.transform.position = iPos.position;
         effectGO.transform.parent = iPos;
         effectGO.transform.localPosition = Vector3.zero;

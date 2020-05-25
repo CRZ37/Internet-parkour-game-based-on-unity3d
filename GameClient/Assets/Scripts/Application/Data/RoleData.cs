@@ -5,7 +5,7 @@ using Common;
 
 public class RoleData
 {
-    //玩家血量，碰撞6次后死亡
+    //玩家血量
     public int Health { get; private set; }
     //技能的时间
     public float SkillTime { get; private set; }

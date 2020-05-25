@@ -37,7 +37,8 @@ namespace GameServer.Servers
                 {
                     case MoveDirection.Left:
                         localClient.LocationIndex--;
-                        if (localClient.LocationIndex < 1 || clientsInRoom[0].LocationIndex == clientsInRoom[1].LocationIndex)
+                        if (localClient.LocationIndex < 1
+                            || clientsInRoom[0].LocationIndex == clientsInRoom[1].LocationIndex)
                         {
                             //如果移动后重合，那么不移动
                             localClient.LocationIndex++;
@@ -49,7 +50,8 @@ namespace GameServer.Servers
                         break;
                     case MoveDirection.Right:
                         localClient.LocationIndex++;
-                        if (localClient.LocationIndex > 6 || clientsInRoom[0].LocationIndex == clientsInRoom[1].LocationIndex)
+                        if (localClient.LocationIndex > 6 || clientsInRoom[0].LocationIndex
+                            == clientsInRoom[1].LocationIndex)
                         {
                             //如果移动后重合，那么不移动
                             localClient.LocationIndex--;
@@ -176,7 +178,7 @@ namespace GameServer.Servers
         private void RunTimer()
         {
             //计时之前先暂停一段时间，有两个目的，
-            //一是先让开始计时的消息return回去，二是这段间隙可以在客户端插入一些其他动画
+            //一是先让开始计时的消息返回回去，二是这段间隙可以在客户端插入一些其他动画
             Thread.Sleep(1700);
             for (int i = 3; i > 0; i--)
             {
@@ -189,6 +191,7 @@ namespace GameServer.Servers
             BroadcastMessage(null, ActionCode.StartPlay, "StartPlay");
         }
         //平手/输了只增加总场数，输了再操作胜场
+        //TODO:3.如果在服务器计算血量，就改成在本方法中结算分数，排出顺位，然后使用依次client.Send()来发送GameOverRequest
         public void UpdateResultCoin(string data)
         {
             string[] res = data.Split(',');

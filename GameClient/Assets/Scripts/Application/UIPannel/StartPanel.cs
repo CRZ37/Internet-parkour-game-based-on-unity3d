@@ -19,11 +19,13 @@ public class StartPanel : BasePanel
 
     private void onExitClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         Application.Quit();
     }
 
     private void onLoginClick()
     {
+        Game.Instance.sound.PlayEffect("Click");
         UIMng.PushPanel(UIPanelType.Login);
     }
     public override void OnPause()

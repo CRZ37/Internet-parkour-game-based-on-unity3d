@@ -52,7 +52,7 @@ namespace GameServer.DAO
                 }
                 else
                 {
-                    cmd = new MySqlCommand("update roleShopstate set userid=@userid,rolebuy=@rolebuy", conn);
+                    cmd = new MySqlCommand("update roleShopstate set rolebuy=@rolebuy where userid=@userid", conn);
                 }
                 cmd.Parameters.AddWithValue("rolebuy", roleShopState.RoleBuy);
                 cmd.Parameters.AddWithValue("userid", roleShopState.UserId);

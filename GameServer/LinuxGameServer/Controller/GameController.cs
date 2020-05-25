@@ -59,6 +59,7 @@ namespace GameServer.Controller
         {
             //将一个client转发到其它client,可能会出现游戏结束的瞬间又碰到第二个障碍物的情况，这时候Room
             //已经close了
+            //TODO:1.也可以在转发血量的时候调用相应client更新里面的血量
             if (client.Room != null)
             {
                 client.Room.BroadcastMessage(client, ActionCode.TakeDamage, data);

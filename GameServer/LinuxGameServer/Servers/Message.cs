@@ -19,7 +19,7 @@ namespace GameServer.Servers
             get => data.Length - endIndex;
         }
         /// <summary>
-        /// 解析数据,处理粘包以及分包问题
+        /// 服务器端解析数据,处理粘包
         /// </summary>
         public void ReadMessage(int newDataAmout, Action<RequestCode, ActionCode, string> processDataCallBack)
         {
@@ -43,7 +43,7 @@ namespace GameServer.Servers
                     ActionCode actionCode = (ActionCode)BitConverter.ToInt32(data, 8);
                     string s = Encoding.UTF8.GetString(data, 12, count - 8);
                     processDataCallBack(requestCode, actionCode, s);
-                    //把解析过的数据用后面还没解析过的数据覆盖掉
+                    //把解析过的数据用后面还没解析过的数据覆盖掉，count + 4是数据总长，- 4- count就相当于-（4 + count）
                     Array.Copy(data, count + 4, data, 0, endIndex - 4 - count);
                     //更新startIndex
                     endIndex -= (count + 4);
@@ -54,13 +54,19 @@ namespace GameServer.Servers
                 }
             }
         }
+        /// <summary>
+        /// 服务器端打包数据段
+        /// </summary>
         public static byte[] PackData(ActionCode actionCode, string data)
         {
+            //格式：数据长度 + ActionCode + 内容
             byte[] actionCodeBytes = BitConverter.GetBytes((int)actionCode);
             byte[] dataBytes = Encoding.UTF8.GetBytes(data);
+            //数据包总大小
             int dataAmount = actionCodeBytes.Length + dataBytes.Length;
             byte[] dataAmountBytes = BitConverter.GetBytes(dataAmount);
-            byte[] newBytes = dataAmountBytes.Concat(actionCodeBytes).ToArray<byte>();//Concat(dataBytes);
+            byte[] newBytes = dataAmountBytes.Concat(actionCodeBytes).ToArray<byte>();
+            //返回打包后的数据
             return newBytes.Concat(dataBytes).ToArray<byte>();
         }
     }

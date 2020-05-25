@@ -18,6 +18,7 @@ namespace GameServer.DAO
                 if (reader.Read())
                 {
                     int id = reader.GetInt32("id");
+                    Console.WriteLine(id);
                     int health = reader.GetInt32("health");
                     float skillTime = reader.GetFloat("skilltime");
                     string roleSelect = reader.GetString("roleselect");
@@ -50,16 +51,16 @@ namespace GameServer.DAO
             {
                 if (playerState.Id == -1)
                 {
-                    cmd = new MySqlCommand("insert into playerstate set health=@health,skilltime=@skilltime,userid=@userid,roleselect=@roleselect", conn);
+                    cmd = new MySqlCommand("insert into playerstate set health=@health,skilltime=@skilltime,roleselect=@roleselect,userid=@userid", conn);
                 }
                 else
                 {
-                    cmd = new MySqlCommand("update playerstate set health=@health,skilltime=@skilltime,userid=@userid,roleselect=@roleselect", conn);
+                    cmd = new MySqlCommand("update playerstate set health=@health,skilltime=@skilltime,roleselect=@roleselect where userid=@userid", conn);
                 }
                 cmd.Parameters.AddWithValue("health", playerState.Health);
                 cmd.Parameters.AddWithValue("skilltime", playerState.SkillTime);
-                cmd.Parameters.AddWithValue("userid", playerState.UserId);
                 cmd.Parameters.AddWithValue("roleselect", playerState.RoleSelect);
+                cmd.Parameters.AddWithValue("userid", playerState.UserId);
                 cmd.ExecuteNonQuery();
                 //第一遍插入之后修改client持有的playerState，之后只用更新即可
                 if (playerState.Id == -1)

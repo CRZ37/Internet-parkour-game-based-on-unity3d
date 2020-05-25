@@ -18,17 +18,18 @@ public class RoadChange : MonoBehaviour
     private int itemIndex = -1;
     void Start()
     {
-             
-    }
-    public void SetCreateRoadRequest(CreateRoadRequest createRoadRequest, int index1, int index2)
-    {
-        this.createRoadRequest = createRoadRequest;
+        parent = GameObject.Find("Road");
         if (parent == null)
         {
             parent = new GameObject();
             parent.transform.position = Vector3.zero;
             parent.name = "Road";
         }
+    }
+    public void SetCreateRoadRequest(CreateRoadRequest createRoadRequest, int index1, int index2)
+    {
+        this.createRoadRequest = createRoadRequest;
+        
         //初始化跑道长度
         roadLength = new int[4];
         roadLength[0] = 120;

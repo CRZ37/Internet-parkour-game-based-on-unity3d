@@ -77,10 +77,13 @@ public class SubPool
     {
         foreach (var obj in objPool)
         {
-            if (obj.activeSelf)
-            {
-                UnSpawn(obj);
-            }
+            //if (obj)
+            //{
+                if (obj.activeSelf)
+                {
+                    UnSpawn(obj);
+                }
+            //}     
         }
     }
     /// <summary>
